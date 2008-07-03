@@ -3,13 +3,12 @@
 package Text::Textile;
 
 use strict;
-use Exporter;
-@Text::Textile::ISA = qw(Exporter);
-use vars qw(@EXPORT_OK $VERSION $debug);
-@EXPORT_OK = qw(textile);
-$VERSION = 2.03;
+use warnings;
 
-$debug = 0;
+use base 'Exporter';
+our @EXPORT_OK = qw(textile);
+our $VERSION = 2.03;
+our $debug = 0;
 
 sub new {
     my $class = shift;
