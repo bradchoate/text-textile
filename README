@@ -1,0 +1,34 @@
+        Text::Textile - a Perl implementation of Textile
+
+
+DESCRIPTION
+
+Text::Textile is a Perl impementation of the Textile formatting language.
+
+
+DOCUMENTATION
+
+Documentation for this module is available in Textile.pm in POD format.
+
+
+INSTALLATION
+
+Traditional Perl module installation applies here:
+
+    perl Makefile.PL
+    make
+    make test
+    make install
+
+
+CONTACT INFORMATION
+
+This module was written by Brad Choate (bradchoate.com), based off the hard
+work of Dean Allen (textism.com).
+
+
+LICENSE
+
+This module is released under the Artistic license which allows it to be
+distributed and/or modified under the same terms as Perl itself.
+

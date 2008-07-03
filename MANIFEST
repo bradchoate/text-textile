@@ -1,0 +1,7 @@
+ARTISTIC
+MANIFEST
+Makefile.PL
+README
+INSTALL
+Changes
+lib/Text/Textile.pm
