@@ -16,12 +16,13 @@ sub new {
     my %options = @_;
     $options{filters} ||= {};
     $options{charset} ||= 'iso-8859-1';
-    $options{char_encoding} = 1 unless exists $options{char_encoding};
-    $options{do_quotes} = 1 unless exists $options{do_quotes};
-    $options{trim_spaces} = 0 unless exists $options{trim_spaces};
-    $options{smarty_mode} = 1 unless exists $options{smarty_mode};
-    $options{preserve_spaces} = 0 unless exists $options{preserve_spaces};
-    $options{head_offset} = 0 unless exists $options{head_offset};
+
+    for ( qw( char_encoding do_quotes smarty_mode ) ) {
+        $options{$_} = 1 unless exists $options{$_};
+    }
+    for ( qw( trim_spaces preserve_spaces head_offset ) ) {
+        $options{$_} = 0 unless exists $options{$_};
+    }
 
     my $self = bless \%options, $class;
     if (exists $options{css}) {
@@ -33,7 +34,7 @@ sub new {
     } else {
         $self->flavor('xhtml1/css');
     }
-    $self;
+    return $self;
 }
 
 # getter/setter methods...
@@ -57,12 +58,13 @@ sub set {
             $self->{$opt} = $value;
         }
     }
+    return;
 }
 
 sub get {
     my $self = shift;
     return $self->{shift} if @_;
-    undef;
+    return undef;
 }
 
 sub disable_html {
@@ -70,7 +72,7 @@ sub disable_html {
     if (@_) {
         $self->{disable_html} = shift;
     }
-    $self->{disable_html} || 0;
+    return $self->{disable_html} || 0;
 }
 
 sub head_offset {
@@ -78,7 +80,7 @@ sub head_offset {
     if (@_) {
         $self->{head_offset} = shift;
     }
-    $self->{head_offset} || 0;
+    return $self->{head_offset} || 0;
 }
 
 sub flavor {
@@ -110,7 +112,7 @@ sub flavor {
         }
         $self->_css_defaults() if $self->{css_mode} && !exists $self->{css};
     }
-    $self->{flavor};
+    return $self->{flavor};
 }
 
 sub css {
@@ -125,7 +127,7 @@ sub css {
             $self->_css_defaults() if $self->{css_mode} && !exists $self->{css};
         }
     }
-    $self->{css_mode} ? $self->{css} : 0;
+    return $self->{css_mode} ? $self->{css} : 0;
 }
 
 sub charset {
@@ -138,49 +140,49 @@ sub charset {
             $self->char_encoding(1);
         }
     }
-    $self->{charset};
+    return $self->{charset};
 }
 
 sub docroot {
     my $self = shift;
     $self->{docroot} = shift if @_;
-    $self->{docroot};
+    return $self->{docroot};
 }
 
 sub trim_spaces {
     my $self = shift;
     $self->{trim_spaces} = shift if @_;
-    $self->{trim_spaces};
+    return $self->{trim_spaces};
 }
 
 sub filter_param {
     my $self = shift;
     $self->{filter_param} = shift if @_;
-    $self->{filter_param};
+    return $self->{filter_param};
 }
 
 sub preserve_spaces {
     my $self = shift;
     $self->{preserve_spaces} = shift if @_;
-    $self->{preserve_spaces};
+    return $self->{preserve_spaces};
 }
 
 sub filters {
     my $self = shift;
     $self->{filters} = shift if @_;
-    $self->{filters};
+    return $self->{filters};
 }
 
 sub char_encoding {
     my $self = shift;
     $self->{char_encoding} = shift if @_;
-    $self->{char_encoding};
+    return $self->{char_encoding};
 }
 
 sub handle_quotes {
     my $self = shift;
     $self->{do_quotes} = shift if @_;
-    $self->{do_quotes};
+    return $self->{do_quotes};
 }
 
 # end of getter/setter methods
@@ -326,7 +328,7 @@ $blocktags = qr{
 
 sub process {
     my $self = shift;
-    $self->textile(@_);
+    return $self->textile(@_);
 }
 
 sub textile {
@@ -763,7 +765,7 @@ sub textile {
         $out =~ s/(<(?:img|br|hr)[^>]*?(?<!\/))>/$1 \/>/g;
     }
 
-    $out;
+    return $out;
 }
 
 sub format_paragraph {
@@ -840,7 +842,7 @@ sub format_paragraph {
         $result = $self->process_quotes($result);
     }
 
-    $result;
+    return $result;
 }
 
 {
@@ -1090,7 +1092,7 @@ sub format_cite {
       $post .= ':';
     }
     $tag .= '>';
-    $tag . $self->format_inline(text => $text) . '</cite>'.$post;
+    return $tag . $self->format_inline(text => $text) . '</cite>'.$post;
 }
 
 sub format_code {
@@ -1102,7 +1104,7 @@ sub format_code {
     $code =~ s/&lt;textile#(\d+)&gt;/<textile#$1>/g;
     my $tag = '<code';
     $tag .= " language=\"$lang\"" if $lang;
-    $tag . '>' . $code . '</code>';
+    return $tag . '>' . $code . '</code>';
 }
 
 sub format_classstyle {
@@ -1158,7 +1160,8 @@ sub format_classstyle {
     $attrs .= qq{ style="$style"} if $style;
     $attrs .= qq{ lang="$lang"} if $lang;
     $attrs =~ s/^ //;
-    $attrs;
+
+    return $attrs;
 }
 
 sub format_tag {
@@ -1174,7 +1177,8 @@ sub format_tag {
     my $attr = $self->format_classstyle($clsty);
     $tag .= qq{ $attr} if $attr;
     $tag .= qq{>$text</$tagname>};
-    $pre.$tag.$post;
+
+    return $pre.$tag.$post;
 }
 
 sub format_deflist {
@@ -1222,6 +1226,8 @@ sub format_deflist {
         $out .= '<dd';
         $out .= qq{ $ddattr} if $ddattr;
         $out .= '>' . $dd . '</dd>' . "\n";
+
+        return $out;
     }
 
     my ($dt, $dd);
@@ -1243,7 +1249,7 @@ sub format_deflist {
     $tag .= qq{ $attr} if $attr;
     $tag .= '>'."\n";
 
-    $tag.$out."</dl>\n";
+    return $tag.$out."</dl>\n";
 }
 
 sub format_list {
@@ -1347,7 +1353,7 @@ sub format_list {
         $out .= '</li>' if $j != $last_depth;
     }
 
-    $out;
+    return $out;
 }
 
 sub format_block {
@@ -1378,7 +1384,8 @@ sub format_block {
         $str =~ s/^\s*<p[^>]*>//;
         $str =~ s/<\/p>\s*$//;
     }
-    $pre.$str.$post;
+
+    return $pre.$str.$post;
 }
 
 sub format_link {
@@ -1408,7 +1415,8 @@ sub format_link {
         $tag .= qq{ title="$title"} if length($title);
     }
     $tag .= qq{>$linktext</a>};
-    $tag;
+
+    return $tag;
 }
 
 sub format_url {
@@ -1424,7 +1432,8 @@ sub format_url {
     $url =~ s/&(?!amp;)/&amp;/g;
     $url =~ s/\ /\+/g;
     $url =~ s/^((?:.+?)\?)(.+)$/$1.$self->encode_url($2)/ge;
-    $url;
+
+    return $url;
 }
 
 sub format_span {
@@ -1457,7 +1466,8 @@ sub format_span {
         $cite = $self->format_url(url => $cite);
         $tag .= qq{ cite="$cite"};
     }
-    $pre.$tag.'>'.$self->format_paragraph(text => $text).'</span>'.$post;
+
+    return $pre.$tag.'>'.$self->format_paragraph(text => $text).'</span>'.$post;
 }
 
 sub format_image {
@@ -1579,7 +1589,8 @@ sub format_image {
         $link = $self->format_url(url => $link);
         $tag = '<a href="'.$link.'">'.$tag.'</a>';
     }
-    $pre.$tag.$post;
+
+    return $pre.$tag.$post;
 }
 
 sub format_table {
@@ -1859,7 +1870,7 @@ sub format_table {
         return undef;
     }
 
-    $table;
+    return $table;
 }
 
 sub apply_filters {
@@ -1878,7 +1889,7 @@ sub apply_filters {
             $text = $filters->{$filter}->($text, $param);
         }
     }
-    $text;
+    return $text;
 }
 
 # minor utility / formatting routines
@@ -1895,7 +1906,8 @@ sub apply_filters {
         } else {
             $html = $self->encode_html_basic($html, $can_double_encode);
         }
-        $html;
+
+        return $html;
     }
 
     sub decode_html {
@@ -1905,7 +1917,8 @@ sub apply_filters {
         $html =~ s!&amp;!&!g;
         $html =~ s!&lt;!<!g;
         $html =~ s!&gt;!>!g;
-        $html;
+
+        return $html;
     }
 
     sub encode_html_basic {
@@ -1923,7 +1936,8 @@ sub apply_filters {
         $html =~ s!"!&quot;!g;
         $html =~ s!<!&lt;!g;
         $html =~ s!>!&gt;!g;
-        $html;
+
+        return $html;
     }
 
 }
@@ -1947,7 +1961,7 @@ sub apply_filters {
                 }
             }
         }
-        undef;
+        return undef;
     }
 }
 
@@ -1957,7 +1971,7 @@ sub encode_url {
     $str =~ s!([^A-Za-z0-9_\.\-\+\&=\%;])!
          ord($1) > 255 ? '%u' . (uc sprintf("%04x", ord($1)))
                        : '%'  . (uc sprintf("%02x", ord($1)))!egx;
-    $str;
+    return $str;
 }
 
 sub mail_encode {
@@ -1967,14 +1981,14 @@ sub mail_encode {
     $addr =~ s!([^\$])!
          ord($1) > 255 ? '%u' . (uc sprintf("%04x", ord($1)))
                        : '%'  . (uc sprintf("%02x", ord($1)))!egx;
-    $addr;
+    return $addr;
 }
 
 sub process_quotes {
     # stub routine for now. subclass and implement.
     my $self = shift;
     my ($str) = @_;
-    $str;
+    return $str;
 }
 
 # a default set of macros for the {...} macro syntax
@@ -1987,163 +2001,163 @@ sub default_macros {
     # those values are escaped by the time they are processed
     # for macros.
     return {
-      'c|' => '&#162;', # CENT SIGN
-      '|c' => '&#162;', # CENT SIGN
-      'L-' => '&#163;', # POUND SIGN
-      '-L' => '&#163;', # POUND SIGN
-      'Y=' => '&#165;', # YEN SIGN
-      '=Y' => '&#165;', # YEN SIGN
-      '(c)' => '&#169;', # COPYRIGHT SIGN
-      '&lt;&lt;' => '&#171;', # LEFT-POINTING DOUBLE ANGLE QUOTATION
-      '(r)' => '&#174;', # REGISTERED SIGN
-      '+_' => '&#177;', # PLUS-MINUS SIGN
-      '_+' => '&#177;', # PLUS-MINUS SIGN
-      '&gt;&gt;' => '&#187;', # RIGHT-POINTING DOUBLE ANGLE QUOTATION
-      '1/4' => '&#188;', # VULGAR FRACTION ONE QUARTER
-      '1/2' => '&#189;', # VULGAR FRACTION ONE HALF
-      '3/4' => '&#190;', # VULGAR FRACTION THREE QUARTERS
-      'A`' => '&#192;', # LATIN CAPITAL LETTER A WITH GRAVE
-      '`A' => '&#192;', # LATIN CAPITAL LETTER A WITH GRAVE
-      'A\'' => '&#193;', # LATIN CAPITAL LETTER A WITH ACUTE
-      '\'A' => '&#193;', # LATIN CAPITAL LETTER A WITH ACUTE
-      'A^' => '&#194;', # LATIN CAPITAL LETTER A WITH CIRCUMFLEX
-      '^A' => '&#194;', # LATIN CAPITAL LETTER A WITH CIRCUMFLEX
-      'A~' => '&#195;', # LATIN CAPITAL LETTER A WITH TILDE
-      '~A' => '&#195;', # LATIN CAPITAL LETTER A WITH TILDE
-      'A"' => '&#196;', # LATIN CAPITAL LETTER A WITH DIAERESIS
-      '"A' => '&#196;', # LATIN CAPITAL LETTER A WITH DIAERESIS
-      'Ao' => '&#197;', # LATIN CAPITAL LETTER A WITH RING ABOVE
-      'oA' => '&#197;', # LATIN CAPITAL LETTER A WITH RING ABOVE
-      'AE' => '&#198;', # LATIN CAPITAL LETTER AE
-      'C,' => '&#199;', # LATIN CAPITAL LETTER C WITH CEDILLA
-      ',C' => '&#199;', # LATIN CAPITAL LETTER C WITH CEDILLA
-      'E`' => '&#200;', # LATIN CAPITAL LETTER E WITH GRAVE
-      '`E' => '&#200;', # LATIN CAPITAL LETTER E WITH GRAVE
-      'E\'' => '&#201;', # LATIN CAPITAL LETTER E WITH ACUTE
-      '\'E' => '&#201;', # LATIN CAPITAL LETTER E WITH ACUTE
-      'E^' => '&#202;', # LATIN CAPITAL LETTER E WITH CIRCUMFLEX
-      '^E' => '&#202;', # LATIN CAPITAL LETTER E WITH CIRCUMFLEX
-      'E"' => '&#203;', # LATIN CAPITAL LETTER E WITH DIAERESIS
-      '"E' => '&#203;', # LATIN CAPITAL LETTER E WITH DIAERESIS
-      'I`' => '&#204;', # LATIN CAPITAL LETTER I WITH GRAVE
-      '`I' => '&#204;', # LATIN CAPITAL LETTER I WITH GRAVE
-      'I\'' => '&#205;', # LATIN CAPITAL LETTER I WITH ACUTE
-      '\'I' => '&#205;', # LATIN CAPITAL LETTER I WITH ACUTE
-      'I^' => '&#206;', # LATIN CAPITAL LETTER I WITH CIRCUMFLEX
-      '^I' => '&#206;', # LATIN CAPITAL LETTER I WITH CIRCUMFLEX
-      'I"' => '&#207;', # LATIN CAPITAL LETTER I WITH DIAERESIS
-      '"I' => '&#207;', # LATIN CAPITAL LETTER I WITH DIAERESIS
-      'D-' => '&#208;', # LATIN CAPITAL LETTER ETH
-      '-D' => '&#208;', # LATIN CAPITAL LETTER ETH
-      'N~' => '&#209;', # LATIN CAPITAL LETTER N WITH TILDE
-      '~N' => '&#209;', # LATIN CAPITAL LETTER N WITH TILDE
-      'O`' => '&#210;', # LATIN CAPITAL LETTER O WITH GRAVE
-      '`O' => '&#210;', # LATIN CAPITAL LETTER O WITH GRAVE
-      'O\'' => '&#211;', # LATIN CAPITAL LETTER O WITH ACUTE
-      '\'O' => '&#211;', # LATIN CAPITAL LETTER O WITH ACUTE
-      'O^' => '&#212;', # LATIN CAPITAL LETTER O WITH CIRCUMFLEX
-      '^O' => '&#212;', # LATIN CAPITAL LETTER O WITH CIRCUMFLEX
-      'O~' => '&#213;', # LATIN CAPITAL LETTER O WITH TILDE
-      '~O' => '&#213;', # LATIN CAPITAL LETTER O WITH TILDE
-      'O"' => '&#214;', # LATIN CAPITAL LETTER O WITH DIAERESIS
-      '"O' => '&#214;', # LATIN CAPITAL LETTER O WITH DIAERESIS
-      'O/' => '&#216;', # LATIN CAPITAL LETTER O WITH STROKE
-      '/O' => '&#216;', # LATIN CAPITAL LETTER O WITH STROKE
-      'U`' =>  '&#217;', # LATIN CAPITAL LETTER U WITH GRAVE
-      '`U' =>  '&#217;', # LATIN CAPITAL LETTER U WITH GRAVE
-      'U\'' => '&#218;', # LATIN CAPITAL LETTER U WITH ACUTE
-      '\'U' => '&#218;', # LATIN CAPITAL LETTER U WITH ACUTE
-      'U^' => '&#219;', # LATIN CAPITAL LETTER U WITH CIRCUMFLEX
-      '^U' => '&#219;', # LATIN CAPITAL LETTER U WITH CIRCUMFLEX
-      'U"' => '&#220;', # LATIN CAPITAL LETTER U WITH DIAERESIS
-      '"U' => '&#220;', # LATIN CAPITAL LETTER U WITH DIAERESIS
-      'Y\'' => '&#221;', # LATIN CAPITAL LETTER Y WITH ACUTE
-      '\'Y' => '&#221;', # LATIN CAPITAL LETTER Y WITH ACUTE
-      'a`' => '&#224;', # LATIN SMALL LETTER A WITH GRAVE
-      '`a' => '&#224;', # LATIN SMALL LETTER A WITH GRAVE
-      'a\'' => '&#225;', # LATIN SMALL LETTER A WITH ACUTE
-      '\'a' => '&#225;', # LATIN SMALL LETTER A WITH ACUTE
-      'a^' => '&#226;', # LATIN SMALL LETTER A WITH CIRCUMFLEX
-      '^a' => '&#226;', # LATIN SMALL LETTER A WITH CIRCUMFLEX
-      'a~' => '&#227;', # LATIN SMALL LETTER A WITH TILDE
-      '~a' => '&#227;', # LATIN SMALL LETTER A WITH TILDE
-      'a"' => '&#228;', # LATIN SMALL LETTER A WITH DIAERESIS
-      '"a' => '&#228;', # LATIN SMALL LETTER A WITH DIAERESIS
-      'ao' => '&#229;', # LATIN SMALL LETTER A WITH RING ABOVE
-      'oa' => '&#229;', # LATIN SMALL LETTER A WITH RING ABOVE
-      'ae' => '&#230;', # LATIN SMALL LETTER AE
-      'c,' => '&#231;', # LATIN SMALL LETTER C WITH CEDILLA
-      ',c' => '&#231;', # LATIN SMALL LETTER C WITH CEDILLA
-      'e`' => '&#232;', # LATIN SMALL LETTER E WITH GRAVE
-      '`e' => '&#232;', # LATIN SMALL LETTER E WITH GRAVE
-      'e\'' => '&#233;', # LATIN SMALL LETTER E WITH ACUTE
-      '\'e' => '&#233;', # LATIN SMALL LETTER E WITH ACUTE
-      'e^' => '&#234;', # LATIN SMALL LETTER E WITH CIRCUMFLEX
-      '^e' => '&#234;', # LATIN SMALL LETTER E WITH CIRCUMFLEX
-      'e"' => '&#235;', # LATIN SMALL LETTER E WITH DIAERESIS
-      '"e' => '&#235;', # LATIN SMALL LETTER E WITH DIAERESIS
-      'i`' => '&#236;', # LATIN SMALL LETTER I WITH GRAVE
-      '`i' => '&#236;', # LATIN SMALL LETTER I WITH GRAVE
-      'i\'' => '&#237;', # LATIN SMALL LETTER I WITH ACUTE
-      '\'i' => '&#237;', # LATIN SMALL LETTER I WITH ACUTE
-      'i^' => '&#238;', # LATIN SMALL LETTER I WITH CIRCUMFLEX
-      '^i' => '&#238;', # LATIN SMALL LETTER I WITH CIRCUMFLEX
-      'i"' => '&#239;', # LATIN SMALL LETTER I WITH DIAERESIS
-      '"i' => '&#239;', # LATIN SMALL LETTER I WITH DIAERESIS
-      'n~' => '&#241;', # LATIN SMALL LETTER N WITH TILDE
-      '~n' => '&#241;', # LATIN SMALL LETTER N WITH TILDE
-      'o`' => '&#242;', # LATIN SMALL LETTER O WITH GRAVE
-      '`o' => '&#242;', # LATIN SMALL LETTER O WITH GRAVE
-      'o\'' => '&#243;', # LATIN SMALL LETTER O WITH ACUTE
-      '\'o' => '&#243;', # LATIN SMALL LETTER O WITH ACUTE
-      'o^' => '&#244;', # LATIN SMALL LETTER O WITH CIRCUMFLEX
-      '^o' => '&#244;', # LATIN SMALL LETTER O WITH CIRCUMFLEX
-      'o~' => '&#245;', # LATIN SMALL LETTER O WITH TILDE
-      '~o' => '&#245;', # LATIN SMALL LETTER O WITH TILDE
-      'o"' => '&#246;', # LATIN SMALL LETTER O WITH DIAERESIS
-      '"o' => '&#246;', # LATIN SMALL LETTER O WITH DIAERESIS
-      ':-' => '&#247;', # DIVISION SIGN
-      '-:' => '&#247;', # DIVISION SIGN
-      'o/' => '&#248;', # LATIN SMALL LETTER O WITH STROKE
-      '/o' => '&#248;', # LATIN SMALL LETTER O WITH STROKE
-      'u`' => '&#249;', # LATIN SMALL LETTER U WITH GRAVE
-      '`u' => '&#249;', # LATIN SMALL LETTER U WITH GRAVE
-      'u\'' => '&#250;', # LATIN SMALL LETTER U WITH ACUTE
-      '\'u' => '&#250;', # LATIN SMALL LETTER U WITH ACUTE
-      'u^' => '&#251;', # LATIN SMALL LETTER U WITH CIRCUMFLEX
-      '^u' => '&#251;', # LATIN SMALL LETTER U WITH CIRCUMFLEX
-      'u"' => '&#252;', # LATIN SMALL LETTER U WITH DIAERESIS
-      '"u' => '&#252;', # LATIN SMALL LETTER U WITH DIAERESIS
-      'y\'' => '&#253;', # LATIN SMALL LETTER Y WITH ACUTE
-      '\'y' => '&#253;', # LATIN SMALL LETTER Y WITH ACUTE
-      'y"' => '&#255', # LATIN SMALL LETTER Y WITH DIAERESIS
-      '"y' => '&#255', # LATIN SMALL LETTER Y WITH DIAERESIS
-      'OE' => '&#338;', # LATIN CAPITAL LIGATURE OE
-      'oe' => '&#339;', # LATIN SMALL LIGATURE OE
-      '*' => '&#2022;', # BULLET
-      'Fr' => '&#8355;', # FRENCH FRANC SIGN
-      'L=' => '&#8356;', # LIRA SIGN
-      '=L' => '&#8356;', # LIRA SIGN
-      'Rs' => '&#8360;', # RUPEE SIGN
-      'C=' => '&#8364;', # EURO SIGN
-      '=C' => '&#8364;', # EURO SIGN
-      'tm' => '&#8482;', # TRADE MARK SIGN
-      '&lt;-' => '&#8592;', # LEFTWARDS ARROW
-      '-&gt;' => '&#8594;', # RIGHTWARDS ARROW
-      '&lt;=' => '&#8656;', # LEFTWARDS DOUBLE ARROW
-      '=&gt;' => '&#8658;', # RIGHTWARDS DOUBLE ARROW
-      '=/' => '&#8800;', # NOT EQUAL TO
-      '/=' => '&#8800;', # NOT EQUAL TO
-      '&lt;_' => '&#8804;', # LESS-THAN OR EQUAL TO
-      '_&lt;' => '&#8804;', # LESS-THAN OR EQUAL TO
-      '&gt;_' => '&#8805;', # GREATER-THAN OR EQUAL TO
-      '_&gt;' => '&#8805;', # GREATER-THAN OR EQUAL TO
-      ':(' => '&#9785;', # WHITE FROWNING FACE
-      ':)' => '&#9786;', # WHITE SMILING FACE
-      'spade' => '&#9824;', # BLACK SPADE SUIT
-      'club' => '&#9827;', # BLACK CLUB SUIT
-      'heart' => '&#9829;', # BLACK HEART SUIT
-      'diamond' => '&#9830;', # BLACK DIAMOND SUIT
+        'c|'       => '&#162;', # CENT SIGN
+        '|c'       => '&#162;', # CENT SIGN
+        'L-'       => '&#163;', # POUND SIGN
+        '-L'       => '&#163;', # POUND SIGN
+        'Y='       => '&#165;', # YEN SIGN
+        '=Y'       => '&#165;', # YEN SIGN
+        '(c)'      => '&#169;', # COPYRIGHT SIGN
+        '&lt;&lt;' => '&#171;', # LEFT-POINTING DOUBLE ANGLE QUOTATION
+        '(r)'      => '&#174;', # REGISTERED SIGN
+        '+_'       => '&#177;', # PLUS-MINUS SIGN
+        '_+'       => '&#177;', # PLUS-MINUS SIGN
+        '&gt;&gt;' => '&#187;', # RIGHT-POINTING DOUBLE ANGLE QUOTATION
+        '1/4'      => '&#188;', # VULGAR FRACTION ONE QUARTER
+        '1/2'      => '&#189;', # VULGAR FRACTION ONE HALF
+        '3/4'      => '&#190;', # VULGAR FRACTION THREE QUARTERS
+        'A`'       => '&#192;', # LATIN CAPITAL LETTER A WITH GRAVE
+        '`A'       => '&#192;', # LATIN CAPITAL LETTER A WITH GRAVE
+        'A\''      => '&#193;', # LATIN CAPITAL LETTER A WITH ACUTE
+        '\'A'      => '&#193;', # LATIN CAPITAL LETTER A WITH ACUTE
+        'A^'       => '&#194;', # LATIN CAPITAL LETTER A WITH CIRCUMFLEX
+        '^A'       => '&#194;', # LATIN CAPITAL LETTER A WITH CIRCUMFLEX
+        'A~'       => '&#195;', # LATIN CAPITAL LETTER A WITH TILDE
+        '~A'       => '&#195;', # LATIN CAPITAL LETTER A WITH TILDE
+        'A"'       => '&#196;', # LATIN CAPITAL LETTER A WITH DIAERESIS
+        '"A'       => '&#196;', # LATIN CAPITAL LETTER A WITH DIAERESIS
+        'Ao'       => '&#197;', # LATIN CAPITAL LETTER A WITH RING ABOVE
+        'oA'       => '&#197;', # LATIN CAPITAL LETTER A WITH RING ABOVE
+        'AE'       => '&#198;', # LATIN CAPITAL LETTER AE
+        'C,'       => '&#199;', # LATIN CAPITAL LETTER C WITH CEDILLA
+        ',C'       => '&#199;', # LATIN CAPITAL LETTER C WITH CEDILLA
+        'E`'       => '&#200;', # LATIN CAPITAL LETTER E WITH GRAVE
+        '`E'       => '&#200;', # LATIN CAPITAL LETTER E WITH GRAVE
+        'E\''      => '&#201;', # LATIN CAPITAL LETTER E WITH ACUTE
+        '\'E'      => '&#201;', # LATIN CAPITAL LETTER E WITH ACUTE
+        'E^'       => '&#202;', # LATIN CAPITAL LETTER E WITH CIRCUMFLEX
+        '^E'       => '&#202;', # LATIN CAPITAL LETTER E WITH CIRCUMFLEX
+        'E"'       => '&#203;', # LATIN CAPITAL LETTER E WITH DIAERESIS
+        '"E'       => '&#203;', # LATIN CAPITAL LETTER E WITH DIAERESIS
+        'I`'       => '&#204;', # LATIN CAPITAL LETTER I WITH GRAVE
+        '`I'       => '&#204;', # LATIN CAPITAL LETTER I WITH GRAVE
+        'I\''      => '&#205;', # LATIN CAPITAL LETTER I WITH ACUTE
+        '\'I'      => '&#205;', # LATIN CAPITAL LETTER I WITH ACUTE
+        'I^'       => '&#206;', # LATIN CAPITAL LETTER I WITH CIRCUMFLEX
+        '^I'       => '&#206;', # LATIN CAPITAL LETTER I WITH CIRCUMFLEX
+        'I"'       => '&#207;', # LATIN CAPITAL LETTER I WITH DIAERESIS
+        '"I'       => '&#207;', # LATIN CAPITAL LETTER I WITH DIAERESIS
+        'D-'       => '&#208;', # LATIN CAPITAL LETTER ETH
+        '-D'       => '&#208;', # LATIN CAPITAL LETTER ETH
+        'N~'       => '&#209;', # LATIN CAPITAL LETTER N WITH TILDE
+        '~N'       => '&#209;', # LATIN CAPITAL LETTER N WITH TILDE
+        'O`'       => '&#210;', # LATIN CAPITAL LETTER O WITH GRAVE
+        '`O'       => '&#210;', # LATIN CAPITAL LETTER O WITH GRAVE
+        'O\''      => '&#211;', # LATIN CAPITAL LETTER O WITH ACUTE
+        '\'O'      => '&#211;', # LATIN CAPITAL LETTER O WITH ACUTE
+        'O^'       => '&#212;', # LATIN CAPITAL LETTER O WITH CIRCUMFLEX
+        '^O'       => '&#212;', # LATIN CAPITAL LETTER O WITH CIRCUMFLEX
+        'O~'       => '&#213;', # LATIN CAPITAL LETTER O WITH TILDE
+        '~O'       => '&#213;', # LATIN CAPITAL LETTER O WITH TILDE
+        'O"'       => '&#214;', # LATIN CAPITAL LETTER O WITH DIAERESIS
+        '"O'       => '&#214;', # LATIN CAPITAL LETTER O WITH DIAERESIS
+        'O/'       => '&#216;', # LATIN CAPITAL LETTER O WITH STROKE
+        '/O'       => '&#216;', # LATIN CAPITAL LETTER O WITH STROKE
+        'U`'       => '&#217;', # LATIN CAPITAL LETTER U WITH GRAVE
+        '`U'       => '&#217;', # LATIN CAPITAL LETTER U WITH GRAVE
+        'U\''      => '&#218;', # LATIN CAPITAL LETTER U WITH ACUTE
+        '\'U'      => '&#218;', # LATIN CAPITAL LETTER U WITH ACUTE
+        'U^'       => '&#219;', # LATIN CAPITAL LETTER U WITH CIRCUMFLEX
+        '^U'       => '&#219;', # LATIN CAPITAL LETTER U WITH CIRCUMFLEX
+        'U"'       => '&#220;', # LATIN CAPITAL LETTER U WITH DIAERESIS
+        '"U'       => '&#220;', # LATIN CAPITAL LETTER U WITH DIAERESIS
+        'Y\''      => '&#221;', # LATIN CAPITAL LETTER Y WITH ACUTE
+        '\'Y'      => '&#221;', # LATIN CAPITAL LETTER Y WITH ACUTE
+        'a`'       => '&#224;', # LATIN SMALL LETTER A WITH GRAVE
+        '`a'       => '&#224;', # LATIN SMALL LETTER A WITH GRAVE
+        'a\''      => '&#225;', # LATIN SMALL LETTER A WITH ACUTE
+        '\'a'      => '&#225;', # LATIN SMALL LETTER A WITH ACUTE
+        'a^'       => '&#226;', # LATIN SMALL LETTER A WITH CIRCUMFLEX
+        '^a'       => '&#226;', # LATIN SMALL LETTER A WITH CIRCUMFLEX
+        'a~'       => '&#227;', # LATIN SMALL LETTER A WITH TILDE
+        '~a'       => '&#227;', # LATIN SMALL LETTER A WITH TILDE
+        'a"'       => '&#228;', # LATIN SMALL LETTER A WITH DIAERESIS
+        '"a'       => '&#228;', # LATIN SMALL LETTER A WITH DIAERESIS
+        'ao'       => '&#229;', # LATIN SMALL LETTER A WITH RING ABOVE
+        'oa'       => '&#229;', # LATIN SMALL LETTER A WITH RING ABOVE
+        'ae'       => '&#230;', # LATIN SMALL LETTER AE
+        'c,'       => '&#231;', # LATIN SMALL LETTER C WITH CEDILLA
+        ',c'       => '&#231;', # LATIN SMALL LETTER C WITH CEDILLA
+        'e`'       => '&#232;', # LATIN SMALL LETTER E WITH GRAVE
+        '`e'       => '&#232;', # LATIN SMALL LETTER E WITH GRAVE
+        'e\''      => '&#233;', # LATIN SMALL LETTER E WITH ACUTE
+        '\'e'      => '&#233;', # LATIN SMALL LETTER E WITH ACUTE
+        'e^'       => '&#234;', # LATIN SMALL LETTER E WITH CIRCUMFLEX
+        '^e'       => '&#234;', # LATIN SMALL LETTER E WITH CIRCUMFLEX
+        'e"'       => '&#235;', # LATIN SMALL LETTER E WITH DIAERESIS
+        '"e'       => '&#235;', # LATIN SMALL LETTER E WITH DIAERESIS
+        'i`'       => '&#236;', # LATIN SMALL LETTER I WITH GRAVE
+        '`i'       => '&#236;', # LATIN SMALL LETTER I WITH GRAVE
+        'i\''      => '&#237;', # LATIN SMALL LETTER I WITH ACUTE
+        '\'i'      => '&#237;', # LATIN SMALL LETTER I WITH ACUTE
+        'i^'       => '&#238;', # LATIN SMALL LETTER I WITH CIRCUMFLEX
+        '^i'       => '&#238;', # LATIN SMALL LETTER I WITH CIRCUMFLEX
+        'i"'       => '&#239;', # LATIN SMALL LETTER I WITH DIAERESIS
+        '"i'       => '&#239;', # LATIN SMALL LETTER I WITH DIAERESIS
+        'n~'       => '&#241;', # LATIN SMALL LETTER N WITH TILDE
+        '~n'       => '&#241;', # LATIN SMALL LETTER N WITH TILDE
+        'o`'       => '&#242;', # LATIN SMALL LETTER O WITH GRAVE
+        '`o'       => '&#242;', # LATIN SMALL LETTER O WITH GRAVE
+        'o\''      => '&#243;', # LATIN SMALL LETTER O WITH ACUTE
+        '\'o'      => '&#243;', # LATIN SMALL LETTER O WITH ACUTE
+        'o^'       => '&#244;', # LATIN SMALL LETTER O WITH CIRCUMFLEX
+        '^o'       => '&#244;', # LATIN SMALL LETTER O WITH CIRCUMFLEX
+        'o~'       => '&#245;', # LATIN SMALL LETTER O WITH TILDE
+        '~o'       => '&#245;', # LATIN SMALL LETTER O WITH TILDE
+        'o"'       => '&#246;', # LATIN SMALL LETTER O WITH DIAERESIS
+        '"o'       => '&#246;', # LATIN SMALL LETTER O WITH DIAERESIS
+        ':-'       => '&#247;', # DIVISION SIGN
+        '-:'       => '&#247;', # DIVISION SIGN
+        'o/'       => '&#248;', # LATIN SMALL LETTER O WITH STROKE
+        '/o'       => '&#248;', # LATIN SMALL LETTER O WITH STROKE
+        'u`'       => '&#249;', # LATIN SMALL LETTER U WITH GRAVE
+        '`u'       => '&#249;', # LATIN SMALL LETTER U WITH GRAVE
+        'u\''      => '&#250;', # LATIN SMALL LETTER U WITH ACUTE
+        '\'u'      => '&#250;', # LATIN SMALL LETTER U WITH ACUTE
+        'u^'       => '&#251;', # LATIN SMALL LETTER U WITH CIRCUMFLEX
+        '^u'       => '&#251;', # LATIN SMALL LETTER U WITH CIRCUMFLEX
+        'u"'       => '&#252;', # LATIN SMALL LETTER U WITH DIAERESIS
+        '"u'       => '&#252;', # LATIN SMALL LETTER U WITH DIAERESIS
+        'y\''      => '&#253;', # LATIN SMALL LETTER Y WITH ACUTE
+        '\'y'      => '&#253;', # LATIN SMALL LETTER Y WITH ACUTE
+        'y"'       => '&#255', # LATIN SMALL LETTER Y WITH DIAERESIS
+        '"y'       => '&#255', # LATIN SMALL LETTER Y WITH DIAERESIS
+        'OE'       => '&#338;', # LATIN CAPITAL LIGATURE OE
+        'oe'       => '&#339;', # LATIN SMALL LIGATURE OE
+        '*'        => '&#2022;', # BULLET
+        'Fr'       => '&#8355;', # FRENCH FRANC SIGN
+        'L='       => '&#8356;', # LIRA SIGN
+        '=L'       => '&#8356;', # LIRA SIGN
+        'Rs'       => '&#8360;', # RUPEE SIGN
+        'C='       => '&#8364;', # EURO SIGN
+        '=C'       => '&#8364;', # EURO SIGN
+        'tm'       => '&#8482;', # TRADE MARK SIGN
+        '&lt;-'    => '&#8592;', # LEFTWARDS ARROW
+        '-&gt;'    => '&#8594;', # RIGHTWARDS ARROW
+        '&lt;='    => '&#8656;', # LEFTWARDS DOUBLE ARROW
+        '=&gt;'    => '&#8658;', # RIGHTWARDS DOUBLE ARROW
+        '=/'       => '&#8800;', # NOT EQUAL TO
+        '/='       => '&#8800;', # NOT EQUAL TO
+        '&lt;_'    => '&#8804;', # LESS-THAN OR EQUAL TO
+        '_&lt;'    => '&#8804;', # LESS-THAN OR EQUAL TO
+        '&gt;_'    => '&#8805;', # GREATER-THAN OR EQUAL TO
+        '_&gt;'    => '&#8805;', # GREATER-THAN OR EQUAL TO
+        ':('       => '&#9785;', # WHITE FROWNING FACE
+        ':)'       => '&#9786;', # WHITE SMILING FACE
+        'spade'    => '&#9824;', # BLACK SPADE SUIT
+        'club'     => '&#9827;', # BLACK CLUB SUIT
+        'heart'    => '&#9829;', # BLACK HEART SUIT
+        'diamond'  => '&#9830;', # BLACK DIAMOND SUIT
     };
 }
 
@@ -2163,7 +2177,7 @@ sub _css_defaults {
        class_footnote => 'footnote',
        id_footnote_prefix => 'fn',
     );
-    $self->css(\%css_defaults);
+    return $self->css(\%css_defaults);
 }
 
 sub _halign {
@@ -2218,11 +2232,13 @@ sub _strip_borders {
             }
         }
     }
+    return;
 }
 
 sub _repl {
     push @{$_[0]}, $_[1];
-    '<textile#'.(scalar(@{$_[0]})).'>';
+
+    return '<textile#'.(scalar(@{$_[0]})).'>';
 }
 
 sub _tokenize {
@@ -2259,7 +2275,8 @@ sub _tokenize {
         $pos = pos $str;
     }
     push @tokens, ['text', substr($str, $pos, $len - $pos)] if $pos < $len;
-    \@tokens;
+
+    return \@tokens;
 }
 
 1;

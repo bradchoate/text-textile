@@ -47,7 +47,7 @@ tags:
 		--languages=Perl --langmap=Perl:+.t \
 
 critic:
-	perlcritic -4 -q lib/Text/Textile.pm t/*.t
+	perlcritic -1 -q lib/Text/Textile.pm t/*.t
 MAKE_FRAG
 
 }
