@@ -1,0 +1,116 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.7	//
+MY	Makefile.PL	/^sub MY::postamble {$/;"	s
+MY	Text-Textile-2.03/Makefile.PL	/^sub MY::postamble {$/;"	s
+Repository	Makefile.PL	/^    Repository: http:\/\/code.google.com\/p\/text-textile\/source$/;"	l
+Repository	Text-Textile-2.03/Makefile.PL	/^    Repository: http:\/\/code.google.com\/p\/text-textile\/source$/;"	l
+Text::Textile	Text-Textile-2.03/lib/Text/Textile.pm	/^package Text::Textile;$/;"	p
+Text::Textile	lib/Text/Textile.pm	/^package Text::Textile;$/;"	p
+_css_defaults	Text-Textile-2.03/lib/Text/Textile.pm	/^sub _css_defaults {$/;"	s
+_css_defaults	lib/Text/Textile.pm	/^sub _css_defaults {$/;"	s
+_halign	Text-Textile-2.03/lib/Text/Textile.pm	/^sub _halign {$/;"	s
+_halign	lib/Text/Textile.pm	/^sub _halign {$/;"	s
+_imgalign	Text-Textile-2.03/lib/Text/Textile.pm	/^sub _imgalign {$/;"	s
+_imgalign	lib/Text/Textile.pm	/^sub _imgalign {$/;"	s
+_repl	Text-Textile-2.03/lib/Text/Textile.pm	/^sub _repl {$/;"	s
+_repl	lib/Text/Textile.pm	/^sub _repl {$/;"	s
+_strip_borders	Text-Textile-2.03/lib/Text/Textile.pm	/^sub _strip_borders {$/;"	s
+_strip_borders	lib/Text/Textile.pm	/^sub _strip_borders {$/;"	s
+_tokenize	Text-Textile-2.03/lib/Text/Textile.pm	/^sub _tokenize {$/;"	s
+_tokenize	lib/Text/Textile.pm	/^sub _tokenize {$/;"	s
+_valign	Text-Textile-2.03/lib/Text/Textile.pm	/^sub _valign {$/;"	s
+_valign	lib/Text/Textile.pm	/^sub _valign {$/;"	s
+add_term	Text-Textile-2.03/lib/Text/Textile.pm	/^    sub add_term {$/;"	s
+add_term	lib/Text/Textile.pm	/^    sub add_term {$/;"	s
+apply_filters	Text-Textile-2.03/lib/Text/Textile.pm	/^sub apply_filters {$/;"	s
+apply_filters	lib/Text/Textile.pm	/^sub apply_filters {$/;"	s
+char_encoding	Text-Textile-2.03/lib/Text/Textile.pm	/^sub char_encoding {$/;"	s
+char_encoding	lib/Text/Textile.pm	/^sub char_encoding {$/;"	s
+charset	Text-Textile-2.03/lib/Text/Textile.pm	/^sub charset {$/;"	s
+charset	lib/Text/Textile.pm	/^sub charset {$/;"	s
+critic	Makefile.PL	/^critic:$/;"	l
+critic	Text-Textile-2.03/Makefile.PL	/^critic:$/;"	l
+css	Text-Textile-2.03/lib/Text/Textile.pm	/^sub css {$/;"	s
+css	lib/Text/Textile.pm	/^sub css {$/;"	s
+decode_html	Text-Textile-2.03/lib/Text/Textile.pm	/^    sub decode_html {$/;"	s
+decode_html	lib/Text/Textile.pm	/^    sub decode_html {$/;"	s
+default_macros	Text-Textile-2.03/lib/Text/Textile.pm	/^sub default_macros {$/;"	s
+default_macros	lib/Text/Textile.pm	/^sub default_macros {$/;"	s
+disable_html	Text-Textile-2.03/lib/Text/Textile.pm	/^sub disable_html {$/;"	s
+disable_html	lib/Text/Textile.pm	/^sub disable_html {$/;"	s
+docroot	Text-Textile-2.03/lib/Text/Textile.pm	/^sub docroot {$/;"	s
+docroot	lib/Text/Textile.pm	/^sub docroot {$/;"	s
+encode_html	Text-Textile-2.03/lib/Text/Textile.pm	/^    sub encode_html {$/;"	s
+encode_html	lib/Text/Textile.pm	/^    sub encode_html {$/;"	s
+encode_html_basic	Text-Textile-2.03/lib/Text/Textile.pm	/^    sub encode_html_basic {$/;"	s
+encode_html_basic	lib/Text/Textile.pm	/^    sub encode_html_basic {$/;"	s
+encode_url	Text-Textile-2.03/lib/Text/Textile.pm	/^sub encode_url {$/;"	s
+encode_url	lib/Text/Textile.pm	/^sub encode_url {$/;"	s
+filter_param	Text-Textile-2.03/lib/Text/Textile.pm	/^sub filter_param {$/;"	s
+filter_param	lib/Text/Textile.pm	/^sub filter_param {$/;"	s
+filters	Text-Textile-2.03/lib/Text/Textile.pm	/^sub filters {$/;"	s
+filters	lib/Text/Textile.pm	/^sub filters {$/;"	s
+flavor	Text-Textile-2.03/lib/Text/Textile.pm	/^sub flavor {$/;"	s
+flavor	lib/Text/Textile.pm	/^sub flavor {$/;"	s
+format_block	Text-Textile-2.03/lib/Text/Textile.pm	/^sub format_block {$/;"	s
+format_block	lib/Text/Textile.pm	/^sub format_block {$/;"	s
+format_cite	Text-Textile-2.03/lib/Text/Textile.pm	/^sub format_cite {$/;"	s
+format_cite	lib/Text/Textile.pm	/^sub format_cite {$/;"	s
+format_classstyle	Text-Textile-2.03/lib/Text/Textile.pm	/^sub format_classstyle {$/;"	s
+format_classstyle	lib/Text/Textile.pm	/^sub format_classstyle {$/;"	s
+format_code	Text-Textile-2.03/lib/Text/Textile.pm	/^sub format_code {$/;"	s
+format_code	lib/Text/Textile.pm	/^sub format_code {$/;"	s
+format_deflist	Text-Textile-2.03/lib/Text/Textile.pm	/^sub format_deflist {$/;"	s
+format_deflist	lib/Text/Textile.pm	/^sub format_deflist {$/;"	s
+format_image	Text-Textile-2.03/lib/Text/Textile.pm	/^sub format_image {$/;"	s
+format_image	lib/Text/Textile.pm	/^sub format_image {$/;"	s
+format_inline	Text-Textile-2.03/lib/Text/Textile.pm	/^sub format_inline {$/;"	s
+format_inline	lib/Text/Textile.pm	/^sub format_inline {$/;"	s
+format_link	Text-Textile-2.03/lib/Text/Textile.pm	/^sub format_link {$/;"	s
+format_link	lib/Text/Textile.pm	/^sub format_link {$/;"	s
+format_list	Text-Textile-2.03/lib/Text/Textile.pm	/^sub format_list {$/;"	s
+format_list	lib/Text/Textile.pm	/^sub format_list {$/;"	s
+format_macro	Text-Textile-2.03/lib/Text/Textile.pm	/^    sub format_macro {$/;"	s
+format_macro	lib/Text/Textile.pm	/^    sub format_macro {$/;"	s
+format_paragraph	Text-Textile-2.03/lib/Text/Textile.pm	/^sub format_paragraph {$/;"	s
+format_paragraph	lib/Text/Textile.pm	/^sub format_paragraph {$/;"	s
+format_span	Text-Textile-2.03/lib/Text/Textile.pm	/^sub format_span {$/;"	s
+format_span	lib/Text/Textile.pm	/^sub format_span {$/;"	s
+format_table	Text-Textile-2.03/lib/Text/Textile.pm	/^sub format_table {$/;"	s
+format_table	lib/Text/Textile.pm	/^sub format_table {$/;"	s
+format_tag	Text-Textile-2.03/lib/Text/Textile.pm	/^sub format_tag {$/;"	s
+format_tag	lib/Text/Textile.pm	/^sub format_tag {$/;"	s
+format_url	Text-Textile-2.03/lib/Text/Textile.pm	/^sub format_url {$/;"	s
+format_url	lib/Text/Textile.pm	/^sub format_url {$/;"	s
+get	Text-Textile-2.03/lib/Text/Textile.pm	/^sub get {$/;"	s
+get	lib/Text/Textile.pm	/^sub get {$/;"	s
+handle_quotes	Text-Textile-2.03/lib/Text/Textile.pm	/^sub handle_quotes {$/;"	s
+handle_quotes	lib/Text/Textile.pm	/^sub handle_quotes {$/;"	s
+head_offset	Text-Textile-2.03/lib/Text/Textile.pm	/^sub head_offset {$/;"	s
+head_offset	lib/Text/Textile.pm	/^sub head_offset {$/;"	s
+image_size	Text-Textile-2.03/lib/Text/Textile.pm	/^    sub image_size {$/;"	s
+image_size	lib/Text/Textile.pm	/^    sub image_size {$/;"	s
+mail_encode	Text-Textile-2.03/lib/Text/Textile.pm	/^sub mail_encode {$/;"	s
+mail_encode	lib/Text/Textile.pm	/^sub mail_encode {$/;"	s
+new	Text-Textile-2.03/lib/Text/Textile.pm	/^sub new {$/;"	s
+new	lib/Text/Textile.pm	/^sub new {$/;"	s
+preserve_spaces	Text-Textile-2.03/lib/Text/Textile.pm	/^sub preserve_spaces {$/;"	s
+preserve_spaces	lib/Text/Textile.pm	/^sub preserve_spaces {$/;"	s
+process	Text-Textile-2.03/lib/Text/Textile.pm	/^sub process {$/;"	s
+process	lib/Text/Textile.pm	/^sub process {$/;"	s
+process_quotes	Text-Textile-2.03/lib/Text/Textile.pm	/^sub process_quotes {$/;"	s
+process_quotes	lib/Text/Textile.pm	/^sub process_quotes {$/;"	s
+resources	Makefile.PL	/^resources:$/;"	l
+resources	Text-Textile-2.03/Makefile.PL	/^resources:$/;"	l
+set	Text-Textile-2.03/lib/Text/Textile.pm	/^sub set {$/;"	s
+set	lib/Text/Textile.pm	/^sub set {$/;"	s
+tags	Makefile.PL	/^tags:$/;"	l
+tags	Text-Textile-2.03/Makefile.PL	/^tags:$/;"	l
+textile	Text-Textile-2.03/lib/Text/Textile.pm	/^sub textile {$/;"	s
+textile	lib/Text/Textile.pm	/^sub textile {$/;"	s
+trim_spaces	Text-Textile-2.03/lib/Text/Textile.pm	/^sub trim_spaces {$/;"	s
+trim_spaces	lib/Text/Textile.pm	/^sub trim_spaces {$/;"	s
