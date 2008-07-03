@@ -42,6 +42,7 @@ tags:
 		--exclude=blib \
 		--exclude=.svn \
 		--exclude='*~' \
+		--exclude='Text-Textile-*' \
 		--languages=Perl --langmap=Perl:+.t \
 
 critic:
