@@ -2217,18 +2217,18 @@ sub _imgalign {
 
 sub _strip_borders {
     my ($pre, $post) = @_;
-    if ($$post && $$pre && ((my $open = substr($$pre, 0, 1)) =~ m/[{[]/)) {
-        my $close = substr($$post, 0, 1);
+    if (${$post} && ${$pre} && ((my $open = substr(${$pre}, 0, 1)) =~ m/[{[]/)) {
+        my $close = substr(${$post}, 0, 1);
         if ((($open eq '{') && ($close eq '}')) ||
             (($open eq '[') && ($close eq ']'))) {
-            $$pre = substr($$pre, 1);
-            $$post = substr($$post, 1);
+            ${$pre} = substr(${$pre}, 1);
+            ${$post} = substr(${$post}, 1);
         } else {
-            $close = substr($$post, -1, 1) if $close !~ m/[}\]]/;
+            $close = substr(${$post}, -1, 1) if $close !~ m/[}\]]/;
             if ((($open eq '{') && ($close eq '}')) ||
                 (($open eq '[') && ($close eq ']'))) {
-                $$pre = substr($$pre, 1);
-                $$post = substr($$post, 0, length($$post) - 1);
+                ${$pre} = substr(${$pre}, 1);
+                ${$post} = substr(${$post}, 0, length(${$post}) - 1);
             }
         }
     }
