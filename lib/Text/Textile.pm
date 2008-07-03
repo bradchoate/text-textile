@@ -1238,7 +1238,8 @@ sub format_deflist {
     $out .= add_term($self, $dt, $dd) if $dt && $dd;
 
     my $tag = '<dl';
-    my $attr = $self->format_classstyle($clsty) if $clsty;
+    my $attr;
+    $attr = $self->format_classstyle($clsty) if $clsty;
     $tag .= qq{ $attr} if $attr;
     $tag .= '>'."\n";
 
