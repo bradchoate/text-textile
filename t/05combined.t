@@ -5,7 +5,7 @@ use strict;
 use Test::More tests=>1;
 use Text::Textile qw(textile);
 
-my $source = <<SOURCE;
+my $source = <<'SOURCE';
 start paragraph
 
 another paragraph
@@ -20,7 +20,7 @@ SOURCE
 my $dest = textile($source);
 $dest =~ s/(^\s+|\s+$)//g;
 
-my $expected = <<EXPECTED;
+my $expected = <<'EXPECTED';
 <p>start paragraph</p>
 
 <p>another paragraph</p>
