@@ -11,11 +11,12 @@ my %parms = (
     VERSION_FROM  => 'lib/Text/Textile.pm',
     ABSTRACT_FROM => 'lib/Text/Textile.pm',
     PREREQ_PM => {
-        'Test::Harness'     => 2.50, # Something reasonably newish
-        'Exporter'          => 0,
-        'Test::More'        => 0,
+        'Test::Harness' => 2.50, # Something reasonably newish
+        'Exporter'      => 0,
+        'Test::More'    => 0,
     },
-    dist                => { COMPRESS => 'gzip -9f', SUFFIX => 'gz', },
+    dist          => { COMPRESS => 'gzip -9f', SUFFIX => 'gz', },
+    clean         => { FILES => 'Text-Textile-*' },
 );
 
 if ( $ExtUtils::MakeMaker::VERSION =~ /^\d\.\d\d$/ and $ExtUtils::MakeMaker::VERSION > 6.30 ) {
@@ -46,7 +47,7 @@ tags:
 		--languages=Perl --langmap=Perl:+.t \
 
 critic:
-	perlcritic -1 -q lib/Text/Textile.pm t/*.t
+	perlcritic -4 -q lib/Text/Textile.pm t/*.t
 MAKE_FRAG
 
 }
