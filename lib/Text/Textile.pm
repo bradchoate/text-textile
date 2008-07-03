@@ -348,7 +348,7 @@ sub textile {
     # quick translator for abbreviated block names
     # to their tag
     my %macros = ('bq' => 'blockquote');
-    
+
     # an array to hold any portions of the text to be preserved
     # without further processing by Textile
     my @repl;
@@ -422,7 +422,7 @@ sub textile {
             }
             next;
         }
-        
+
         if ($sticky) {
             $sticky++;
         } else {
@@ -762,7 +762,7 @@ sub textile {
     if ($self->{flavor} =~ m/^xhtml/i) {
         $out =~ s/(<(?:img|br|hr)[^>]*?(?<!\/))>/$1 \/>/g;
     }
-   
+
     $out;
 }
 
@@ -1223,7 +1223,7 @@ sub format_deflist {
         $out .= qq{ $ddattr} if $ddattr;
         $out .= '>' . $dd . '</dd>' . "\n";
     }
-    
+
     my ($dt, $dd);
     my $out = '';
     foreach my $line (@lines) {
@@ -1241,7 +1241,7 @@ sub format_deflist {
     my $attr = $self->format_classstyle($clsty) if $clsty;
     $tag .= qq{ $attr} if $attr;
     $tag .= '>'."\n";
-    
+
     $tag.$out."</dl>\n";
 }
 
@@ -1807,7 +1807,7 @@ sub format_table {
         if ($colspan > 1) {
             # handle the spanned column if we came up short
             $colspan--;
-            $row_out = qq{<td} 
+            $row_out = qq{<td}
                      . ($colspan>1 ? qq{ colspan="$colspan"} : '')
                      . qq{></td>$row_out};
         }

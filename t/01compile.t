@@ -5,4 +5,6 @@ use warnings;
 
 use Test::More tests=>1;
 
-use_ok('Text::Textile');
+BEGIN {
+    use_ok('Text::Textile');
+}

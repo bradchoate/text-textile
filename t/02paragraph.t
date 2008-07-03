@@ -1,3 +1,8 @@
+#!/usr/bin/perl -w
+
+use warnings;
+use strict;
+
 use Test::More tests=>1;
 use Text::Textile qw(textile);
 
