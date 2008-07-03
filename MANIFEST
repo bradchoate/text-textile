@@ -1,7 +1,13 @@
 ARTISTIC
+Changes
 MANIFEST
 Makefile.PL
 README
-INSTALL
-Changes
 lib/Text/Textile.pm
+t/01compile.t
+t/02paragraph.t
+t/03url.t
+t/04list.t
+t/05combined.t
+t/pod-coverage.t
+t/pod.t
