@@ -1191,43 +1191,6 @@ sub format_deflist {
         $lines[0] = substr($lines[0], length($1));
     }
 
-    sub add_term {
-        my ($self, $dt, $dd) = @_;
-        my ($dtattr, $ddattr);
-        my $dtlang;
-        if ($dt =~ m/^($clstyre*)/) {
-            my $param = $1;
-            $dtattr = $self->format_classstyle($param);
-            if ($param =~ m/\[([A-Za-z]+?)\]/) {
-                $dtlang = $1;
-            }
-            $dt = substr($dt, length($param));
-        }
-        if ($dd =~ m/^($clstyre*)/) {
-            my $param = $1;
-            # if the language was specified for the term,
-            # then apply it to the definition as well (unless
-            # already specified of course)
-            if ($dtlang && ($param =~ m/\[([A-Za-z]+?)\]/)) {
-                undef $dtlang;
-            }
-            $ddattr = $self->format_classstyle(($dtlang ? "[$dtlang]" : '') . $param);
-            $dd = substr($dd, length($param));
-        }
-        my $out = '<dt';
-        $out .= qq{ $dtattr} if $dtattr;
-        $out .= '>' . $self->format_inline(text => $dt) . '</dt>' . "\n";
-        if ($dd =~ m/\n\n/) {
-            $dd = $self->textile($dd) if $dd =~ m/\n\n/;
-        } else {
-            $dd = $self->format_paragraph(text => $dd);
-        }
-        $out .= '<dd';
-        $out .= qq{ $ddattr} if $ddattr;
-        $out .= '>' . $dd . '</dd>' . "\n";
-
-        return $out;
-    }
 
     my ($dt, $dd);
     my $out = '';
@@ -1250,6 +1213,45 @@ sub format_deflist {
 
     return $tag.$out."</dl>\n";
 }
+
+sub add_term {
+    my ($self, $dt, $dd) = @_;
+    my ($dtattr, $ddattr);
+    my $dtlang;
+    if ($dt =~ m/^($clstyre*)/) {
+        my $param = $1;
+        $dtattr = $self->format_classstyle($param);
+        if ($param =~ m/\[([A-Za-z]+?)\]/) {
+            $dtlang = $1;
+        }
+        $dt = substr($dt, length($param));
+    }
+    if ($dd =~ m/^($clstyre*)/) {
+        my $param = $1;
+        # if the language was specified for the term,
+        # then apply it to the definition as well (unless
+        # already specified of course)
+        if ($dtlang && ($param =~ m/\[([A-Za-z]+?)\]/)) {
+            undef $dtlang;
+        }
+        $ddattr = $self->format_classstyle(($dtlang ? "[$dtlang]" : '') . $param);
+        $dd = substr($dd, length($param));
+    }
+    my $out = '<dt';
+    $out .= qq{ $dtattr} if $dtattr;
+    $out .= '>' . $self->format_inline(text => $dt) . '</dt>' . "\n";
+    if ($dd =~ m/\n\n/) {
+        $dd = $self->textile($dd) if $dd =~ m/\n\n/;
+    } else {
+        $dd = $self->format_paragraph(text => $dd);
+    }
+    $out .= '<dd';
+    $out .= qq{ $ddattr} if $ddattr;
+    $out .= '>' . $dd . '</dd>' . "\n";
+
+    return $out;
+}
+
 
 sub format_list {
     my $self = shift;
