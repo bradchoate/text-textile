@@ -1149,12 +1149,16 @@ sub format_classstyle {
         $clsty =~ s/\[.+?\]//g;
     }
     my $attrs = '';
+
     $style .= qq{;padding-left:${padleft}em} if $padleft;
     $style .= qq{;padding-right:${padright}em} if $padright;
     $style =~ s/^;//;
-    $class =~ s/^ //;
-    $class =~ s/ $//;
-    $attrs .= qq{ class="$class"} if $class;
+
+    if ( $class ) {
+        $class =~ s/^ //;
+        $class =~ s/ $//;
+        $attrs .= qq{ class="$class"};
+    }
     $attrs .= qq{ id="$id"} if $id;
     $attrs .= qq{ style="$style"} if $style;
     $attrs .= qq{ lang="$lang"} if $lang;
