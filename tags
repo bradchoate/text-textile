@@ -14,7 +14,7 @@ _repl	lib/Text/Textile.pm	/^sub _repl {$/;"	s
 _strip_borders	lib/Text/Textile.pm	/^sub _strip_borders {$/;"	s
 _tokenize	lib/Text/Textile.pm	/^sub _tokenize {$/;"	s
 _valign	lib/Text/Textile.pm	/^sub _valign {$/;"	s
-add_term	lib/Text/Textile.pm	/^    sub add_term {$/;"	s
+add_term	lib/Text/Textile.pm	/^sub add_term {$/;"	s
 apply_filters	lib/Text/Textile.pm	/^sub apply_filters {$/;"	s
 char_encoding	lib/Text/Textile.pm	/^sub char_encoding {$/;"	s
 charset	lib/Text/Textile.pm	/^sub charset {$/;"	s
