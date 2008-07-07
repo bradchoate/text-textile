@@ -1110,7 +1110,8 @@ sub format_classstyle {
     my $self = shift;
     my ($clsty, $class, $style) = @_;
 
-    $class =~ s/^ //;
+    $style = ''      if not defined $style;
+    $class =~ s/^ // if     defined $class;
 
     my ($lang, $padleft, $padright, $id);
     if ($clsty && ($clsty =~ m/{([^}]+)}/)) {
