@@ -42,7 +42,7 @@ sub set {
     my $self = shift;
     my $opt = shift;
     if (ref $opt eq 'HASH') {
-        $self->set($_, $opt->{$_}) foreach %$opt;
+        $self->set($_, $opt->{$_}) foreach %{$opt};
     } else {
         my $value = shift;
         # the following options have special set methods
@@ -786,7 +786,7 @@ sub format_paragraph {
         $tokens = [['text', $buffer]];
     }
     my $result = '';
-    foreach my $token (@$tokens) {
+    foreach my $token (@{$tokens}) {
         my $text = $token->[1];
         if ($token->[0] eq 'tag') {
             $text =~ s/&(?!amp;)/&amp;/g;
@@ -1003,7 +1003,7 @@ sub format_inline {
         # simple replacements...
         $redo = 0;
         foreach my $tag (@qtags) {
-            my ($f, $r, $qf, $cls) = @$tag;
+            my ($f, $r, $qf, $cls) = @{$tag};
             if ($text =~ s/(?:^|(?<=[\s>'"])|([{[])) # "' $1 - pre
                            $qf                       #
                            (?:($clstyre*))?          # $2 - attributes
@@ -1903,7 +1903,7 @@ sub apply_filters {
     return $text unless (ref $filters) eq 'HASH';
 
     my $param = $self->filter_param;
-    foreach my $filter (@$list) {
+    foreach my $filter (@{$list}) {
         next unless exists $filters->{$filter};
         if ((ref $filters->{$filter}) eq 'CODE') {
             $text = $filters->{$filter}->($text, $param);
