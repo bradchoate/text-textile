@@ -925,7 +925,14 @@ sub format_inline {
                :(.+?)                      # $8: URL suffix
                [\]}]
               )
-              !_repl(\@repl, $self->format_link(text => $1,linktext => $3.$6, title => $self->encode_html_basic($4.$7), url => $8, clsty => $2.$5))!gemx;
+              !_repl(\@repl,
+                    $self->format_link(
+                        text     => $1,
+                        linktext => defined $3 ? $3 : $6,
+                        title    => $self->encode_html_basic( defined $4 ? $4 : $7 ),
+                        url      => $8,
+                        clsty    => defined $2 ? $2 : $5)
+                )!gemx;
 
     $text =~ s!((?:^|(?<=[\s>\(]))         # $1: open brace/bracket
                (?: (?:"                    # quote character "
@@ -944,7 +951,14 @@ sub format_inline {
                )
                :(\d+|$urlre)               # $8: URL suffix
                (?:$|(?=$punct{1,2}|\s)))   # $9: closing brace/bracket
-              !_repl(\@repl, $self->format_link(text => $1, linktext => $3.$6, title => $self->encode_html_basic($4.$7), url => $8, clsty => $2.$5))!gemx;
+              !_repl(\@repl,
+                    $self->format_link(
+                        text     => $1,
+                        linktext => defined $3 ? $3 : $6,
+                        title    => $self->encode_html_basic( defined $4 ? $4 : $7 ),
+                        url      => $8,
+                        clsty    => defined $2 ? $2 : $5)
+                )!gemx;
 
     if ($self->{flavor} =~ m/^xhtml2/) {
         # citation with cite link
