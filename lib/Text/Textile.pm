@@ -2373,7 +2373,7 @@ proper recommendation).
 
 =head2 css( [$css] )
 
-Gets or sets the css support for Textile. If css is enabled,
+Gets or sets the CSS support for Textile. If CSS is enabled,
 Textile will emit CSS rules. You may pass a 1 or 0 to enable
 or disable CSS behavior altogether. If you pass a hashref,
 you may assign the CSS class names that are used by
@@ -2384,43 +2384,43 @@ recognized:
 
 =item class_align_right
 
-defaults to 'right'
+defaults to "right"
 
 =item class_align_left
 
-defaults to 'left'
+defaults to "left"
 
 =item class_align_center
 
-defaults to 'center'
+defaults to "center"
 
 =item class_align_top
 
-defaults to 'top'
+defaults to "top"
 
 =item class_align_bottom
 
-defaults to 'bottom'
+defaults to "bottom"
 
 =item class_align_middle
 
-defaults to 'middle'
+defaults to "middle"
 
 =item class_align_justify
 
-defaults to 'justify'
+defaults to "justify"
 
 =item class_caps
 
-defaults to 'caps'
+defaults to "caps"
 
 =item class_footnote
 
-defaults to 'footnote'
+defaults to "footnote"
 
 =item id_footnote_prefix
 
-defaults to 'fn'
+defaults to "fn"
 
 =back
 
@@ -2428,7 +2428,7 @@ defaults to 'fn'
 
 Gets or sets the character set targetted for publication.
 At this time, Text::Textile only changes its behavior
-if the 'utf-8' character set is assigned.
+if the "utf-8" character set is assigned.
 
 Specifically, if utf-8 is requested, any special characters
 created by Textile will be output as native utf-8 characters
@@ -2443,18 +2443,18 @@ the image dimensions).
 
 =head2 trim_spaces( [$trim] )
 
-Gets or sets the 'trim spaces' control flag. If enabled, this
+Gets or sets the "trim spaces" control flag. If enabled, this
 will clear any lines that have only spaces on them (the newline
 itself will remain).
 
 =head2 preserve_spaces( [$preserve] )
 
-Gets or sets the 'preserve spaces' control flag. If enabled, this
+Gets or sets the "preserve spaces" control flag. If enabled, this
 will replace any double spaces within the paragraph data with the
 &#8195; HTML entity (wide space). The default is 0. Spaces will
 pass through to the browser unchanged and render as a single space.
-Note that this setting has no effect on spaces within E<lt>preE<gt>,
-E<lt>codeE<gt> blocks or E<lt>scriptE<gt> sections.
+Note that this setting has no effect on spaces within C<< <pre> >>,
+C<< <code> >> or C<< <script> >>.
 
 =head2 filter_param( [$data] )
 
@@ -2471,7 +2471,7 @@ assigned filters.
 Gets or sets the character encoding logical flag. If character
 encoding is enabled, the HTML::Entities package is used to
 encode special characters. If character encoding is disabled,
-only <, >, " and & are encoded to HTML entities.
+only C<< < >>, C<< > >>, C<"> and C<&> are encoded to HTML entities.
 
 =head2 handle_quotes( [$handle] )
 
@@ -2485,7 +2485,7 @@ Alternative method for invoking the textile method.
 =head2 textile( $str )
 
 Can be called either procedurally or as a method. Transforms
-$str using Textile markup rules.
+I<$str> using Textile markup rules.
 
 =head2 format_paragraph( [$args] )
 
@@ -2586,7 +2586,7 @@ The language (programming language) for the code.
 Returns a string of tag attributes to accomodate the class,
 style and symbols present in $clsty.
 
-$clsty is checked for:
+I<$clsty> is checked for:
 
 =over
 
@@ -2662,8 +2662,8 @@ The text to be processed.
 
 =head2 format_block( %args )
 
-Processes '==xxxxx==' type blocks for filters. A filter
-would follow the open '==' sequence and is specified within
+Processes "==xxxxx==" type blocks for filters. A filter
+would follow the open "==" sequence and is specified within
 pipe characters, like so:
 
     ==|filter|text to be filtered==
@@ -2696,8 +2696,8 @@ Arguments you may pass:
 
 =item src
 
-The 'src' (URL) for the image. This may be a local path,
-ideally starting with a '/'. Images can be located within
+The "src" (URL) for the image. This may be a local path,
+ideally starting with a "/". Images can be located within
 the file system if the docroot method is used to specify
 where the docroot resides. If the image can be found, the
 image_size method is used to determine the dimensions of
@@ -2787,7 +2787,7 @@ as necessary.
 
 =head2 mail_encode( $email )
 
-Encodes the email address in $email for 'mailto:' links.
+Encodes the email address in I<$email> for "mailto:" links.
 
 =head2 process_quotes( $str )
 
@@ -2806,19 +2806,19 @@ Returns the alignment keyword depending on the symbol passed.
 
 =item C<E<lt>E<gt>>
 
-becomes 'justify'
+becomes "justify"
 
 =item C<E<lt>>
 
-becomes 'left'
+becomes "left"
 
 =item C<E<gt>>
 
-becomes 'right'
+becomes "right"
 
 =item C<=>
 
-becomes 'center'
+becomes "center"
 
 =back
 
@@ -2830,15 +2830,15 @@ Returns the alignment keyword depending on the symbol passed.
 
 =item C<^>
 
-becomes 'top'
+becomes "top"
 
 =item C<~>
 
-becomes 'bottom'
+becomes "bottom"
 
 =item C<->
 
-becomes 'middle'
+becomes "middle"
 
 =back
 
@@ -2852,23 +2852,23 @@ preference in the order listed:
 
 =item C<^>
 
-becomes 'top'
+becomes "top"
 
 =item C<~>
 
-becomes 'bottom'
+becomes "bottom"
 
 =item C<->
 
-becomes 'middle'
+becomes "middle"
 
 =item C<E<lt>>
 
-becomes 'left'
+becomes "left"
 
 =item C<E<gt>>
 
-becomes 'right'
+becomes "right"
 
 =back
 
@@ -2890,12 +2890,12 @@ is an internal function that should not be called directly.
 
 =head2 _strip_borders( $pre, $post )
 
-This utility routine will take 'border' characters off of
+This utility routine will take "border" characters off of
 the given $pre and $post strings if they match one of these
 conditions:
 
-    $pre starts with '[', $post ends with ']'
-    $pre starts with '{', $post ends with '}'
+    $pre starts with "[", $post ends with "]"
+    $pre starts with "{", $post ends with "}"
 
 If neither condition is met, then the $pre and $post
 values are left untouched.
@@ -2917,9 +2917,9 @@ signature is explicitly given. Paragraphs are formatted
 with all the inline rules (see inline formatting) and
 each line receives the appropriate markup rules for
 the flavor of HTML in use. For example, newlines for XHTML
-content receive a E<lt>br /E<gt> tag at the end of the line
+content receive a C<< <br /> >> tag at the end of the line
 (with the exception of the last line in the paragraph).
-Paragraph blocks are enclosed in a E<lt>pE<gt> tag.
+Paragraph blocks are enclosed in a C<< <p> >> tag.
 
 =item pre
 
@@ -2932,8 +2932,8 @@ translated into HTML entities automatically.
 =item bc
 
 A "bc" signature is short for "block code", which implies
-a preformatted section like the 'pre' block, but it also
-gets a E<lt>codeE<gt> tag (or for XHTML 2, a E<lt>blockcodeE<gt>
+a preformatted section like the "pre" block, but it also
+gets a C<< <code> >> tag (or for XHTML 2, a C<< <blockcode> >>
 tag is used instead).
 
 Note that within a "bc" block, E<lt> and E<gt> are
@@ -2953,13 +2953,13 @@ within.
 
 =item h1, h2, h3, h4, h5, h6
 
-Headline signatures that produce E<lt>h1E<gt>, etc. tags.
+Headline signatures that produce C<< <h1> >>, etc. tags.
 You can adjust the relative output of these using the
 head_offset attribute.
 
 =item clear
 
-A 'clear' signature is simply used to indicate that the next
+A "clear" signature is simply used to indicate that the next
 block should emit a CSS style attribute that clears any
 floating elements. The default behavior is to clear "both",
 but you can use the left (E<lt>) or right (E<gt>) alignment
@@ -3050,7 +3050,7 @@ have many blank lines scattered through it.
 
 Sometimes you want Textile to just get out of the way and
 let you put some regular HTML markup in your document. You
-can disable Textile formatting for a given block using the '=='
+can disable Textile formatting for a given block using the "=="
 escape mechanism:
 
     p. Regular paragraph
@@ -3122,7 +3122,7 @@ Translates into E<lt>spanE<gt>spanE<lt>/spanE<gt>.
 =item C<@code@>
 
 Translates into E<lt>codeE<gt>codeE<lt>/codeE<gt>. Note
-that within a '@...@' section, E<lt> and E<gt> are
+that within a "@...@" section, E<lt> and E<gt> are
 translated into HTML entities automatically.
 
 =back
@@ -3193,7 +3193,7 @@ The format looks like this:
 
     "Text to display":http://example.com
 
-In addition to this, you can add 'title' text to your link:
+In addition to this, you can add "title" text to your link:
 
     "Text to display (Title text)":http://example.com
 
@@ -3261,7 +3261,7 @@ Alt text can be given as well:
 The path of the image may refer to a locally hosted image or
 can be a full URL.
 
-You can also use the following modifiers after the opening '!'
+You can also use the following modifiers after the opening "!"
 character:
 
 =over
@@ -3298,11 +3298,11 @@ Applies a CSS class and/or id to the image.
 
 =item C<(> (one or more)
 
-Pads 1em on the left for each '(' character.
+Pads 1em on the left for each "(" character.
 
 =item C<)> (one or more)
 
-Pads 1em on the right for each ')' character.
+Pads 1em on the right for each ")" character.
 
 =back
 
@@ -3405,8 +3405,8 @@ To the complex:
     |_{color:green}. Last|
 
 Modifiers can be specified for the table signature itself,
-for a table row (prior to the first 'E<verbar>' character) and
-for any cell (following the 'E<verbar>' for that cell). Note that for
+for a table row (prior to the first "E<verbar>" character) and
+for any cell (following the "E<verbar>" for that cell). Note that for
 cells, a period followed with a space must be placed after
 any modifiers to distinguish the modifier from the cell content.
 
@@ -3424,25 +3424,25 @@ A CSS class and/or id attribute.
 
 =item C<(> (one or more)
 
-Adds 1em of padding to the left for each '(' character.
+Adds 1em of padding to the left for each "(" character.
 
 =item C<)> (one or more)
 
-Adds 1em of padding to the right for each ')' character.
+Adds 1em of padding to the right for each ")" character.
 
 =item C<E<lt>>
 
 Aligns to the left (floats to left for tables if combined with the
-')' modifier).
+")" modifier).
 
 =item C<E<gt>>
 
 Aligns to the right (floats to right for tables if combined with
-the '(' modifier).
+the "(" modifier).
 
 =item C<=>
 
-Aligns to center (sets left, right margins to 'auto' for tables).
+Aligns to center (sets left, right margins to "auto" for tables).
 
 =item C<E<lt>E<gt>>
 
@@ -3516,9 +3516,9 @@ span is placed around them with a class of "caps".
 
 Textile tries to do it's very best to ensure proper XHTML
 syntax. It will even attempt to fix errors you may introduce
-writing in HTML yourself. Unescaped '&' characters within
+writing in HTML yourself. Unescaped "&" characters within
 URLs will be properly escaped. Singlet tags such as br, img
-and hr are checked for the '/' terminator (and it's added
+and hr are checked for the "/" terminator (and it's added
 if necessary). The best way to make sure you produce valid
 XHTML with Textile is to not use any HTML markup at all--
 use the Textile syntax and let it produce the markup for you.
