@@ -1941,10 +1941,10 @@ sub apply_filters {
     sub decode_html {
         my $self = shift;
         my ($html) = @_;
-        $html =~ s!&quot;!"!g;
-        $html =~ s!&amp;!&!g;
-        $html =~ s!&lt;!<!g;
-        $html =~ s!&gt;!>!g;
+        $html =~ s{&quot;}{"}g;
+        $html =~ s{&amp;}{&}g;
+        $html =~ s{&lt;}{<}g;
+        $html =~ s{&gt;}{>}g;
 
         return $html;
     }
@@ -1955,15 +1955,15 @@ sub apply_filters {
         return '' unless defined $html;
         return $html unless $html =~ m/[^\w\s]/;
         if ($can_double_encode) {
-            $html =~ s!&!&amp;!g;
+            $html =~ s{&}{&amp;}g;
         } else {
             ## Encode any & not followed by something that looks like
             ## an entity, numeric or otherwise.
             $html =~ s/&(?!#?[xX]?(?:[0-9a-fA-F]+|\w{1,8});)/&amp;/g;
         }
-        $html =~ s!"!&quot;!g;
-        $html =~ s!<!&lt;!g;
-        $html =~ s!>!&gt;!g;
+        $html =~ s{"}{&quot;}g;
+        $html =~ s{<}{&lt;}g;
+        $html =~ s{>}{&gt;}g;
 
         return $html;
     }
