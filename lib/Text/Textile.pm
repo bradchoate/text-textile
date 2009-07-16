@@ -1193,10 +1193,10 @@ sub format_tag {
     my $self = shift;
     my (%args) = @_;
     my $tagname = $args{tag};
-    my $text = exists $args{text} ? $args{text} : '';
-    my $pre = exists $args{pre} ? $args{pre} : '';
-    my $post = exists $args{post} ? $args{post} : '';
-    my $clsty = exists $args{clsty} ? $args{clsty} : '';
+    my $text  = defined $args{text}  ? $args{text}  : '';
+    my $pre   = defined $args{pre}   ? $args{pre}   : '';
+    my $post  = defined $args{post}  ? $args{post}  : '';
+    my $clsty = defined $args{clsty} ? $args{clsty} : '';
     _strip_borders(\$pre, \$post);
     my $tag = "<$tagname";
     my $attr = $self->format_classstyle($clsty);
