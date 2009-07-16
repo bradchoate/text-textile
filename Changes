@@ -4,18 +4,21 @@
 
 - Fixed an incorrectly defined lexical variable.
 
+- Applied a patch submitted by Ryan McGuigan to prevent clobbering $_.
 
+- Applied a patch from Johannes Plunien to add the 'disable_encode_entities'
+option.
 
 
 2.03 - No changes. Just needed to bump version # for CPAN.
 
-2.02 - Removed Encode package usage altogether until compatability
+2.02 - Removed Encode package usage altogether until compatibility
 issues can be ironed out. Modified newline translation to be more
 cross-platform friendly.
 
 2.01 - Patches to fix issues with older versions of Perl.
 
-2.0 - Many, many fixes and improvments.
+2.0 - Many, many fixes and improvements.
 
 - Added 'dl' paragraph block which allows for definition lists.
 

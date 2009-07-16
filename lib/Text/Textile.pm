@@ -7,7 +7,7 @@ use warnings;
 
 use base 'Exporter';
 our @EXPORT_OK = qw(textile);
-our $VERSION = 2.03;
+our $VERSION = 2.10;
 our $debug = 0;
 
 sub new {
@@ -19,7 +19,7 @@ sub new {
     for ( qw( char_encoding do_quotes smarty_mode ) ) {
         $options{$_} = 1 unless exists $options{$_};
     }
-    for ( qw( trim_spaces preserve_spaces head_offset ) ) {
+    for ( qw( trim_spaces preserve_spaces head_offset disable_encode_entities ) ) {
         $options{$_} = 0 unless exists $options{$_};
     }
 
@@ -176,6 +176,12 @@ sub char_encoding {
     my $self = shift;
     $self->{char_encoding} = shift if @_;
     return $self->{char_encoding};
+}
+
+sub disable_encode_entities {
+    my $self = shift;
+    $self->{disable_encode_entities} = shift if @_;
+    $self->{disable_encode_entities};
 }
 
 sub handle_quotes {
@@ -1921,6 +1927,7 @@ sub apply_filters {
         my $self = shift;
         my($html, $can_double_encode) = @_;
         return '' unless defined $html;
+        return $html if $self->{disable_encode_entities};
         if ($Have_Entities && $self->{char_encoding}) {
             $html = HTML::Entities::encode_entities($html);
         } else {
@@ -2472,6 +2479,12 @@ Gets or sets the character encoding logical flag. If character
 encoding is enabled, the HTML::Entities package is used to
 encode special characters. If character encoding is disabled,
 only C<< < >>, C<< > >>, C<"> and C<&> are encoded to HTML entities.
+
+=head2 disable_encode_entities( $boolean )
+
+Gets or sets the disable encode entities logical flag. If this
+value is set to true no entities are encoded at all. This
+also supersedes the "char_encoding" flag.
 
 =head2 handle_quotes( [$handle] )
 
