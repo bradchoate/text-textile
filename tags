@@ -5,7 +5,6 @@
 !_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
 !_TAG_PROGRAM_VERSION	5.7	//
 MY	Makefile.PL	/^sub MY::postamble {$/;"	s
-Repository	Makefile.PL	/^    Repository: http:\/\/code.google.com\/p\/text-textile\/source$/;"	l
 Text::Textile	lib/Text/Textile.pm	/^package Text::Textile;$/;"	p
 _css_defaults	lib/Text/Textile.pm	/^sub _css_defaults {$/;"	s
 _halign	lib/Text/Textile.pm	/^sub _halign {$/;"	s
@@ -22,6 +21,7 @@ critic	Makefile.PL	/^critic:$/;"	l
 css	lib/Text/Textile.pm	/^sub css {$/;"	s
 decode_html	lib/Text/Textile.pm	/^    sub decode_html {$/;"	s
 default_macros	lib/Text/Textile.pm	/^sub default_macros {$/;"	s
+disable_encode_entities	lib/Text/Textile.pm	/^sub disable_encode_entities {$/;"	s
 disable_html	lib/Text/Textile.pm	/^sub disable_html {$/;"	s
 docroot	lib/Text/Textile.pm	/^sub docroot {$/;"	s
 encode_html	lib/Text/Textile.pm	/^    sub encode_html {$/;"	s
@@ -54,7 +54,6 @@ new	lib/Text/Textile.pm	/^sub new {$/;"	s
 preserve_spaces	lib/Text/Textile.pm	/^sub preserve_spaces {$/;"	s
 process	lib/Text/Textile.pm	/^sub process {$/;"	s
 process_quotes	lib/Text/Textile.pm	/^sub process_quotes {$/;"	s
-resources	Makefile.PL	/^resources:$/;"	l
 set	lib/Text/Textile.pm	/^sub set {$/;"	s
 tags	Makefile.PL	/^tags:$/;"	l
 textile	lib/Text/Textile.pm	/^sub textile {$/;"	s
