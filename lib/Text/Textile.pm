@@ -1,5 +1,3 @@
-# $Id: Textile.pm,v 1.16 2004/02/19 14:52:58 brad Exp $
-
 package Text::Textile;
 
 use strict;
@@ -181,7 +179,7 @@ sub char_encoding {
 sub disable_encode_entities {
     my $self = shift;
     $self->{disable_encode_entities} = shift if @_;
-    $self->{disable_encode_entities};
+    return $self->{disable_encode_entities};
 }
 
 sub handle_quotes {
