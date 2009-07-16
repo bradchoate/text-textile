@@ -3535,11 +3535,6 @@ if necessary). The best way to make sure you produce valid
 XHTML with Textile is to not use any HTML markup at all--
 use the Textile syntax and let it produce the markup for you.
 
-=head1 LICENSE
-
-This software is licensed under the same terms as Perl itself.
-Please see L<ARTISTIC> for license details.
-
 =head1 COPYRIGHT & LICENSE
 
 Copyright 2005-2009 Brad Choate, brad@bradchoate.com.
