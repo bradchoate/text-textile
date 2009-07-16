@@ -3542,9 +3542,26 @@ use the Textile syntax and let it produce the markup for you.
 This software is licensed under the same terms as Perl itself.
 Please see L<ARTISTIC> for license details.
 
-=head1 AUTHOR & COPYRIGHT
+=head1 COPYRIGHT & LICENSE
 
-Text::Textile was written by Brad Choate, brad@bradchoate.com.
-It is an adaptation of Textile, developed by Dean Allen of Textism.com.
+Copyright 2005-2009 Brad Choate, brad@bradchoate.com.
+
+This program is free software; you can redistribute it and/or modify
+it under the terms of either:
+
+=over 4
+
+=item * the GNU General Public License as published by the Free
+Software Foundation; either version 1, or (at your option) any later
+version, or
+
+=item * the Artistic License version 2.0.
+
+=back
+
+Text::Textile is an adaptation of Textile, developed by Dean Allen
+of Textism.com.
 
 =cut
+
+1;
