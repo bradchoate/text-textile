@@ -755,7 +755,7 @@ sub textile {
 
     # cleanup-- restore preserved blocks
     my $i = scalar(@repl);
-    $out =~ s!(?:<|&lt;)textile#$i(?:>|&gt;)!$_!, $i-- while $_ = pop @repl;
+    $out =~ s!(?:<|&lt;)textile#$i(?:>|&gt;)!$_!, $i-- while local $_ = pop @repl;
 
     # scan for br, hr tags that are not closed and close them
     # only for xhtml! just the common ones -- don't fret over input
@@ -834,7 +834,7 @@ sub format_paragraph {
     $result =~ s/\001/\n/g;
 
     my $i = scalar(@repl);
-    $result =~ s|<textile#$i>|$_|, $i-- while $_ = pop @repl;
+    $result =~ s|<textile#$i>|$_|, $i-- while local $_ = pop @repl;
 
     # quotalize
     if ($self->{do_quotes}) {
@@ -1046,7 +1046,7 @@ sub format_inline {
 
     # Restore replacements done earlier:
     my $i = scalar(@repl);
-    $text =~ s|<textile#$i>|$_|, $i-- while $_ = pop @repl;
+    $text =~ s|<textile#$i>|$_|, $i-- while local $_ = pop @repl;
 
     # translate entities to characters for highbit stuff since
     # we're using utf8
