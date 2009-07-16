@@ -302,7 +302,7 @@ $codere = qr!
       (?:^|(?<=[\s\(]))
       @                           # opening
       (?:\[([A-Za-z0-9]+)\])?     # $3: language id
-      ([^\s].+?[^\s])             # $4: code itself
+      ([^\s].*?[^\s]?)            # $4: code itself
       @                           # closing
       (?:$|(?=$punct{1,2}|\s))
     )
@@ -870,6 +870,7 @@ sub format_inline {
 
     my @repl;
 
+    no warnings 'uninitialized';
     $text =~ s!$codere!_repl(\@repl, $self->format_code(text => $2.$4, lang => $1.$3))!gem;
 
     # images must be processed before encoding the text since they might
