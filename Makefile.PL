@@ -23,11 +23,13 @@ if ( $ExtUtils::MakeMaker::VERSION =~ /^\d\.\d\d$/ and $ExtUtils::MakeMaker::VER
     $parms{LICENSE} = 'perl';
 }
 
-if ( $ExtUtils::MakeMaker::VERSION ge '6.36' ) {
-    $parms{EXTRA_META} = <<EOF;
-resources:
-    Repository: http://code.google.com/p/text-textile/source
-EOF
+if ( $ExtUtils::MakeMaker::VERSION ge '6.46' ) {
+    $parms{META_MERGE} = {
+        resources => {
+            bugtracker  => 'http://code.google.com/p/text-textile/issues/list',
+            repository  => 'http://code.google.com/p/text-textile/source',
+        }
+    };
 }
 
 WriteMakefile( %parms );
