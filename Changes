@@ -9,6 +9,8 @@
 - Applied a patch from Johannes Plunien to add the 'disable_encode_entities'
 option.
 
+- Should be taint-safe, as all tests run under -T.
+
 
 2.03 - No changes. Just needed to bump version # for CPAN.
 

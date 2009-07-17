@@ -1,4 +1,4 @@
-#!/usr/bin/perl -w
+#!/usr/bin/perl -Tw
 
 use warnings;
 use strict;
@@ -34,5 +34,4 @@ my $expected = <<'EXPECTED';
 EXPECTED
 $expected =~ s/(^\s+|\s+$)//g;
 
-is($dest, $expected);
-
+is($dest, $expected, 'Do we match?');
