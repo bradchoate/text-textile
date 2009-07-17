@@ -6,7 +6,7 @@ use Text::Textile;
 {
     my $tt = Text::Textile->new( disable_encode_entities => 1 );
 
-    my $source = <<SOURCE;
+    my $source = <<'SOURCE';
 start paragraph
 
 another paragraph
@@ -14,7 +14,7 @@ another paragraph
 * list of things with "urls":http://www.jerakeen.org in
 * more things in the list
 
-a http://bare.url.here. and an email\@address.com
+a http://bare.url.here. and an email@address.com
 
 >>> No encode_entities here
 <<< and there
@@ -25,7 +25,7 @@ SOURCE
     my $dest = $tt->process($source);
     $dest =~ s/(^\s+|\s+$)//g;
 
-    my $expected = <<EXPECTED;
+    my $expected = <<'EXPECTED';
 <p>start paragraph</p>
 
 <p>another paragraph</p>
@@ -35,7 +35,7 @@ SOURCE
 <li>more things in the list</li>
 </ul>
 
-<p>a http://bare.url.here. and an email\@address.com</p>
+<p>a http://bare.url.here. and an email@address.com</p>
 
 <p>>>> No encode_entities here<br />
 <<< and there<br />
@@ -49,7 +49,7 @@ EXPECTED
 {
     my $tt = Text::Textile->new( disable_encode_entities => 0 );
 
-    my $source = <<SOURCE;
+    my $source = <<'SOURCE';
 start paragraph
 
 another paragraph
@@ -57,7 +57,7 @@ another paragraph
 * list of things with "urls":http://www.jerakeen.org in
 * more things in the list
 
-a http://bare.url.here. and an email\@address.com
+a http://bare.url.here. and an email@address.com
 
 >>> encode_entities here
 <<< and there
@@ -68,7 +68,7 @@ SOURCE
     my $dest = $tt->process($source);
     $dest =~ s/(^\s+|\s+$)//g;
 
-    my $expected = <<EXPECTED;
+    my $expected = <<'EXPECTED';
 <p>start paragraph</p>
 
 <p>another paragraph</p>
@@ -78,7 +78,7 @@ SOURCE
 <li>more things in the list</li>
 </ul>
 
-<p>a http://bare.url.here. and an email\@address.com</p>
+<p>a http://bare.url.here. and an email@address.com</p>
 
 <p>&gt;&gt;&gt; encode_entities here<br />
 &lt;&lt;&lt; and there<br />
