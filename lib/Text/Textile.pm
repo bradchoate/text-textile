@@ -260,7 +260,7 @@ $clstypadre = qr/
   (?: \[ [a-zA-Z\-]+? \] )
 /x;
 
-$clstyre = qr!
+$clstyre = qr/
   (?:\([A-Za-z0-9_\- \#]+\))
   |
   (?:{
@@ -268,7 +268,7 @@ $clstyre = qr!
      })
   |
   (?: \[ [a-zA-Z\-]+? \] )
-!x;
+/x;
 
 $clstyfiltre = qr/
   (?:\([A-Za-z0-9_\- \#]+\))
@@ -286,7 +286,7 @@ $clstyfiltre = qr/
   (?: \[ [a-zA-Z]+? \] )
 /x;
 
-$codere = qr!
+$codere = qr/
     (?:
       [\[{]
       @                           # opening
@@ -304,7 +304,7 @@ $codere = qr!
       @                           # closing
       (?:$|(?=$punct{1,2}|\s))
     )
-!x;
+/x;
 
 $blocktags = qr{
     <
@@ -371,10 +371,10 @@ sub textile {
 
     unless ($self->{disable_html}) {
         # preserve style, script tag contents
-        $str =~ s!(<(style|script)(?:>| .+?>).*?</\2>)!_repl(\@repl, $1)!ges;
+        $str =~ s{(<(style|script)(?:>| .+?>).*?</\2>)}{_repl(\@repl, $1)}ges;
 
         # preserve HTML comments
-        $str =~ s|(<!--.+?-->)|_repl(\@repl, $1)|ges;
+        $str =~ s{(<!--.+?-->)}{_repl(\@repl, $1)}ges;
 
         # preserve pre block contents, encode contents by default
         my $pre_start = scalar(@repl);
@@ -382,7 +382,7 @@ sub textile {
                  {"\n\n"._repl(\@repl, $1.$self->encode_html($2, 1).$3)."\n\n"}ges;
         # fix code tags within pre blocks we just saved.
         for (my $i = $pre_start; $i < scalar(@repl); $i++) {
-            $repl[$i] =~ s|&lt;(/?)code(.*?)&gt;|<$1code$2>|gs;
+            $repl[$i] =~ s{&lt;(/?)code(.*?)&gt;}{<$1code$2>}gs;
         }
 
         # preserve code blocks by default, encode contents
@@ -528,7 +528,7 @@ sub textile {
             }
             #warn "settings:\n\tblock: $block\n\tpadleft: $padleft\n\tpadright: $padright\n\tclass: $class\n\tstyle: $style\n\tid: $id\n\tfilter: $filter\n\talign: $align\n\tlang: $lang\n\tsticky: $sticky";
             $para = substr($para, pos($para));
-        } elsif ($para =~ m|^<textile#(\d+)>$|) {
+        } elsif ($para =~ m/^<textile#(\d+)>$/) {
             $buffer = $repl[$1-1];
         } elsif ($para =~ m/^clear([<>]+)?\.$/) {
             if ($1 eq '<') {
@@ -1890,7 +1890,7 @@ sub format_table {
     $table .= qq{ cellspacing="0"} if $tclass || $tid || $tstyle;
     $table .= qq{>$out</table>};
 
-    if ($table =~ m|<tr></tr>|) {
+    if ($table =~ m{<tr></tr>}) {
         # exception -- something isn't right so return fail case
         return undef;
     }
