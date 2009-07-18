@@ -774,7 +774,7 @@ sub textile {
 sub format_paragraph {
     my $self = shift;
     my (%args) = @_;
-    my $buffer = exists $args{text} ? $args{text} : '';
+    my $buffer = defined $args{text} ? $args{text} : '';
 
     my @repl;
     $buffer =~ s{(?:^|(?<=[\s>])|([{[]))
@@ -864,7 +864,7 @@ my @qtags = (['**', 'b',      '(?<!\*)\*\*(?!\*)', '\*'],
 sub format_inline {
     my $self = shift;
     my (%args) = @_;
-    my $text = exists $args{text} ? $args{text} : '';
+    my $text = defined $args{text} ? $args{text} : '';
 
     my @repl;
 
@@ -1097,10 +1097,10 @@ sub format_inline {
 sub format_cite {
     my $self = shift;
     my (%args) = @_;
-    my $pre = exists $args{pre} ? $args{pre} : '';
-    my $text = exists $args{text} ? $args{text} : '';
+    my $pre  = defined $args{pre}  ? $args{pre}  : '';
+    my $text = defined $args{text} ? $args{text} : '';
+    my $post = defined $args{post} ? $args{post} : '';
     my $cite = $args{cite};
-    my $post = exists $args{post} ? $args{post} : '';
     _strip_borders(\$pre, \$post);
     my $tag = $pre.'<cite';
     if (($self->{flavor} =~ m/^xhtml2/) && defined $cite && $cite) {
@@ -1116,7 +1116,7 @@ sub format_cite {
 sub format_code {
     my $self = shift;
     my (%args) = @_;
-    my $code = exists $args{text} ? $args{text} : '';
+    my $code = defined $args{text} ? $args{text} : '';
     my $lang = $args{lang};
     $code = $self->encode_html($code, 1);
     $code =~ s/&lt;textile#(\d+)&gt;/<textile#$1>/g;
@@ -1207,7 +1207,7 @@ sub format_tag {
 sub format_deflist {
     my $self = shift;
     my (%args) = @_;
-    my $str = exists $args{text} ? $args{text} : '';
+    my $str = defined $args{text} ? $args{text} : '';
     my $clsty;
     my @lines = split /\n/, $str;
     if ($lines[0] =~ m/^(dl($clstyre*?)\.\.?(?:\ +|$))/) {
@@ -1280,7 +1280,7 @@ sub add_term {
 sub format_list {
     my $self = shift;
     my (%args) = @_;
-    my $str = exists $args{text} ? $args{text} : '';
+    my $str = defined $args{text} ? $args{text} : '';
 
     my %list_tags = ('*' => 'ul', '#' => 'ol');
 
@@ -1384,10 +1384,10 @@ sub format_list {
 sub format_block {
     my $self = shift;
     my (%args) = @_;
-    my $str = exists $args{text} ? $args{text} : '';
+    my $str    = defined $args{text} ? $args{text} : '';
+    my $pre    = defined $args{pre}  ? $args{pre}  : '';
+    my $post   = defined $args{post} ? $args{post} : '';
     my $inline = $args{inline};
-    my $pre = exists $args{pre} ? $args{pre} : '';
-    my $post = exists $args{post} ? $args{post} : '';
     _strip_borders(\$pre, \$post);
     my ($filters) = $str =~ m/^(\|(?:(?:[a-z0-9_\-]+)\|)+)/;
     if ($filters) {
@@ -1416,18 +1416,18 @@ sub format_block {
 sub format_link {
     my $self = shift;
     my (%args) = @_;
-    my $text = exists $args{text} ? $args{text} : '';
-    my $linktext = exists $args{linktext} ? $args{linktext} : '';
-    my $title = $args{title};
-    my $url = $args{url};
-    my $clsty = $args{clsty};
+    my $text     = defined $args{text}     ? $args{text}     : '';
+    my $linktext = defined $args{linktext} ? $args{linktext} : '';
+    my $title    = $args{title};
+    my $url      = $args{url};
+    my $clsty    = $args{clsty};
 
     if (!defined $url || $url eq '') {
         return $text;
     }
-    if (exists $self->{links} && exists $self->{links}{$url}) {
+    if ($self->{links} && $self->{links}{$url}) {
         $title ||= $self->{links}{$url}{title};
-        $url = $self->{links}{$url}{url};
+        $url     = $self->{links}{$url}{url};
     }
     $linktext =~ s/ +$//;
     $linktext = $self->format_paragraph(text => $linktext);
@@ -1464,11 +1464,11 @@ sub format_url {
 sub format_span {
     my $self = shift;
     my (%args) = @_;
-    my $text = exists $args{text} ? $args{text} : '';
-    my $pre = exists $args{pre} ? $args{pre} : '';
-    my $post = exists $args{post} ? $args{post} : '';
+    my $text = defined $args{text} ? $args{text} : '';
+    my $pre  = defined $args{pre}  ? $args{pre}  : '';
+    my $post = defined $args{post} ? $args{post} : '';
+    my $cite = defined $args{cite} ? $args{cite} : '';
     my $align = $args{align};
-    my $cite = exists $args{cite} ? $args{cite} : '';
     my $clsty = $args{clsty};
     _strip_borders(\$pre, \$post);
     my ($class, $style);
@@ -1498,12 +1498,12 @@ sub format_span {
 sub format_image {
     my $self = shift;
     my (%args) = @_;
-    my $src = exists $args{src} ? $args{src} : '';
+    my $src   = defined $args{src}  ? $args{src}  : '';
+    my $pre   = defined $args{pre}  ? $args{pre}  : '';
+    my $post  = defined $args{post} ? $args{post} : '';
     my $extra = $args{extra};
     my $align = $args{align};
-    my $pre = exists $args{pre} ? $args{pre} : '';
-    my $post = exists $args{post} ? $args{post} : '';
-    my $link = $args{url};
+    my $link  = $args{url};
     my $clsty = $args{clsty};
     _strip_borders(\$pre, \$post);
     return $pre.'!!'.$post if length($src) == 0;
@@ -1621,7 +1621,7 @@ sub format_image {
 sub format_table {
     my $self = shift;
     my (%args) = @_;
-    my $str = exists $args{text} ? $args{text} : '';
+    my $str = defined $args{text} ? $args{text} : '';
 
     my @lines = split /\n/, $str;
     my @rows;
@@ -1909,7 +1909,7 @@ sub apply_filters {
 
     my $param = $self->filter_param;
     foreach my $filter (@{$list}) {
-        next unless exists $filters->{$filter};
+        next unless $filters->{$filter};
         if ((ref $filters->{$filter}) eq 'CODE') {
             $text = $filters->{$filter}->($text, $param);
         }
