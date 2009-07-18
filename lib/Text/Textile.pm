@@ -1451,11 +1451,11 @@ sub format_url {
     if ($url =~ m/^(mailto:)?([-\+\w]+\@[-\w]+(\.\w[-\w]*)+)$/) {
         $url = 'mailto:'.$self->mail_encode($2);
     }
-    if ($url !~ m!^(/|\./|\.\./|#)!) {
-        $url = "http://$url" if $url !~ m!^(https?|ftp|mailto|nntp|telnet)!;
+    if ($url !~ m{^(/|\./|\.\./|#)}) {
+        $url = "http://$url" if $url !~ m{^(?:https?|ftp|mailto|nntp|telnet)};
     }
     $url =~ s/&(?!amp;)/&amp;/g;
-    $url =~ s/\ /\+/g;
+    $url =~ s/ /\+/g;
     $url =~ s/^((?:.+?)\?)(.+)$/$1.$self->encode_url($2)/ge;
 
     return $url;
