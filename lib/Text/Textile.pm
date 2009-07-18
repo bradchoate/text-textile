@@ -655,7 +655,7 @@ sub textile {
                 $style =~ s/^;// if $style;
                 $pre .= qq{ style="$style"} if $style;
                 $pre .= qq{ lang="$lang"} if $lang;
-                $pre .= qq{ cite="} . $self->format_url(url => $cite) . '"' if defined $cite; #'
+                $pre .= q{ cite="} . $self->format_url(url => $cite) . '"' if defined $cite;
                 $pre .= '>';
                 $clear = undef;
             }
@@ -869,7 +869,7 @@ sub format_inline {
     my @repl;
 
     no warnings 'uninitialized';
-    $text =~ s!$codere!_repl(\@repl, $self->format_code(text => $2.$4, lang => $1.$3))!gem;
+    $text =~ s{$codere}{_repl(\@repl, $self->format_code(text => $2.$4, lang => $1.$3))}gem;
 
     # images must be processed before encoding the text since they might
     # have the <, > alignment specifiers...
@@ -981,7 +981,7 @@ sub format_inline {
         my $fntag = '<sup';
         $fntag .= ' class="'.$self->{css}{class_footnote}.'"' if $self->{css}{class_footnote};
         $fntag .= '><a href="#'.($self->{css}{id_footnote_prefix}||'fn');
-        $text =~ s|([^ ])\[(\d+)\]|$1$fntag$2">$2</a></sup>|g;
+        $text =~ s{([^ ])\[(\d+)\]}{$1$fntag$2">$2</a></sup>}g;
     }
 
     # translate macros:
@@ -991,11 +991,11 @@ sub format_inline {
     # these were present with textile 1 and are common enough
     # to not require macro braces...
     # (tm) -> &trade;
-    $text =~ s|[\(\[]TM[\)\]]|&#8482;|gi;
+    $text =~ s{[\(\[]TM[\)\]]}{&#8482;}gi;
     # (c) -> &copy;
-    $text =~ s|[\(\[]C[\)\]]|&#169;|gi;
+    $text =~ s{[\(\[]C[\)\]]}{&#169;}gi;
     # (r) -> &reg;
-    $text =~ s|[\(\[]R[\)\]]|&#174;|gi;
+    $text =~ s{[\(\[]R[\)\]]}{&#174;}gi;
 
     if ($self->{preserve_spaces}) {
         # replace two spaces with an em space
@@ -1016,8 +1016,8 @@ sub format_inline {
                            (?<=\S)$qf                #
                            (?:$|([\]}])|(?=$punct{1,2}|\s)) # $4 - post
                           /$self->format_tag(tag => $r, marker => $f, pre => $1, text => $3, clsty => $2, post => $4)/gemx) {
-	           $redo ||= $last ne $text;
-	           $last = $text;
+                    $redo ||= $last ne $text;
+                    $last = $text;
             }
         }
     }
@@ -1038,7 +1038,7 @@ sub format_inline {
     }
 
     # nxn -> n&times;n
-    $text =~ s!((?:[0-9\.]0|[1-9]|\d['"])\ ?)x(\ ?\d)!$1&#215;$2!g;
+    $text =~ s{((?:[0-9\.]0|[1-9]|\d['"])\ ?)x(\ ?\d)}{$1&#215;$2}g;
 
     # translate these entities to the Unicode equivalents:
     $text =~ s/&#133;/&#8230;/g;
@@ -1104,10 +1104,10 @@ sub format_cite {
     _strip_borders(\$pre, \$post);
     my $tag = $pre.'<cite';
     if (($self->{flavor} =~ m/^xhtml2/) && defined $cite && $cite) {
-      $cite = $self->format_url(url => $cite);
-      $tag .= qq{ cite="$cite"};
+        $cite = $self->format_url(url => $cite);
+        $tag .= qq{ cite="$cite"};
     } else {
-      $post .= ':';
+        $post .= ':';
     }
     $tag .= '>';
     return $tag . $self->format_inline(text => $text) . '</cite>'.$post;
@@ -1844,13 +1844,13 @@ sub format_table {
         if ($colspan > 1) {
             # handle the spanned column if we came up short
             $colspan--;
-            $row_out = qq{<td}
+            $row_out = q{<td}
                      . ($colspan>1 ? qq{ colspan="$colspan"} : '')
                      . qq{></td>$row_out};
         }
 
         # build one table row
-        $out .= qq{<tr};
+        $out .= q{<tr};
         if ($rowalign) {
             my $valign = _valign($rowalign);
             $out .= qq{ valign="$valign"} if $valign;
@@ -1863,7 +1863,7 @@ sub format_table {
 
     # now, form the table tag itself
     my $table = '';
-    $table .= qq{<table};
+    $table .= q{<table};
     if ($talign) {
         if ($self->{css_mode}) {
             # horizontal alignment
@@ -1887,7 +1887,7 @@ sub format_table {
     $tstyle =~ s/^;// if $tstyle;
     $table .= qq{ style="$tstyle"} if $tstyle;
     $table .= qq{ lang="$tlang"} if $tlang;
-    $table .= qq{ cellspacing="0"} if $tclass || $tid || $tstyle;
+    $table .= q{ cellspacing="0"} if $tclass || $tid || $tstyle;
     $table .= qq{>$out</table>};
 
     if ($table =~ m{<tr></tr>}) {
