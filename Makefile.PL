@@ -50,6 +50,12 @@ tags:
 
 critic:
 	perlcritic -1 -profile perlcriticrc -q lib/Text/Textile.pm t/*.t
+
+cover:
+	cover -delete
+	HARNESS_PERL_SWITCHES=-MDevel::Cover make test
+	cover
+
 MAKE_FRAG
 
 }
