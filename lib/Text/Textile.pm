@@ -5,7 +5,7 @@ use warnings;
 
 use base 'Exporter';
 our @EXPORT_OK = qw(textile);
-our $VERSION = 2.10;
+our $VERSION = 2.12;
 our $debug = 0;
 
 sub new {
@@ -3534,6 +3534,14 @@ and hr are checked for the "/" terminator (and it's added
 if necessary). The best way to make sure you produce valid
 XHTML with Textile is to not use any HTML markup at all--
 use the Textile syntax and let it produce the markup for you.
+
+=head1 BUGS & SOURCE
+
+Text::Textile is hosted at github.
+
+Source: L<http://github.com/bradchoate/text-textile/tree/master>
+
+Bugs: L<http://github.com/bradchoate/text-textile/issues>
 
 =head1 COPYRIGHT & LICENSE
 
