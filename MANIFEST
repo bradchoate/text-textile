@@ -12,4 +12,5 @@ t/04list.t
 t/05combined.t
 t/06disable_encode_entities.t
 t/07code.t
+t/08bin_textile.t
 t/pod.t
