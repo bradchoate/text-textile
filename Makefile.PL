@@ -10,6 +10,7 @@ my %parms = (
     AUTHOR        => 'Brad Choate <brad@bradchoate.com>',
     VERSION_FROM  => 'lib/Text/Textile.pm',
     ABSTRACT_FROM => 'lib/Text/Textile.pm',
+    EXE_FILES     => [qw(bin/textile)],
     PREREQ_PM => {
         'Test::Harness' => 2.50, # Something reasonably newish
         'Exporter'      => 0,

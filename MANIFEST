@@ -3,6 +3,7 @@ Changes
 MANIFEST
 Makefile.PL
 README
+bin/textile
 lib/Text/Textile.pm
 t/01compile.t
 t/02paragraph.t

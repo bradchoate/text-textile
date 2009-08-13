@@ -1,0 +1,137 @@
+#!/usr/bin/perl
+
+use warnings;
+use strict;
+use File::Basename;
+use Getopt::Long;
+use Text::Textile qw(textile);
+
+my ($is_fullpage, $help, $outfile, $title);
+GetOptions (
+    "fullpage"	=> \$is_fullpage,
+    "help"	=> \$help,
+    "outfile=s"	=> \$outfile,
+    "title=s"	=> \$title,
+) or die;
+$is_fullpage = 1 if defined $title;
+
+################################################################################
+my $prog = basename($0);
+my $Usage = qq{
+$prog [-fullpage] [-title "My <b>HTML</b> title"] [-outfile out.html] file.txt [file2.txt ...]
+$prog -help
+
+Convert Textile markup text in input file to HTML
+
+Options:
+
+-fullpage	Add <html>, <head>, and <body> tags to make a full HTML page
+-help		Print this help
+-outfile ...    Send results to a file, rather than to STDOUT
+-title "..."	Add a <title> (implies -fullpage). Title string can include HTML
+
+perldoc textile for way examples, etc.
+};
+die $Usage if $help;
+
+main($is_fullpage, $outfile, $title);
+exit;
+
+################################################################################
+sub main {
+    my ($is_fullpage, $outfile, $title) = @_;
+    local $/; # slurp whole file
+    my $source = <>;
+    my $textile_text = textile($source);
+    if ($is_fullpage) {
+	$textile_text = make_fullpage($textile_text, $title);
+    }
+    else {
+	$textile_text .= "\n"; # add \n for, e.g., 'echo "blah" | textile'
+    }
+
+    if (defined $outfile) {
+	open my $out_fh, ">", $outfile or die "Can't open outfile $outfile: $!\n";
+	print $out_fh $textile_text;
+	close $out_fh;
+    }
+    else { # just print to STDOUT
+	print $textile_text;
+    }
+    return;
+}
+
+# Top/bottom of HTML page
+my ($Pre_Title, $Post_Title, $Post_Body);
+BEGIN {
+    $Pre_Title = <<ENDPRETITLE;
+<html>
+<head>
+ENDPRETITLE
+    $Post_Title = <<ENDPOSTTITLE;
+</head>
+<body>
+ENDPOSTTITLE
+    $Post_Body = <<ENDPOSTBODY;
+
+</body>
+</html>
+ENDPOSTBODY
+}
+
+sub make_fullpage {
+    my ($text_in, $title) = @_; # $title may be undef
+    my $title_text = defined $title ? "<title>$title</title>\n" : "";
+    my $text_out = join "",
+        $Pre_Title,
+	$title_text,
+	$Post_Title,
+	$text_in,
+	$Post_Body;
+    return $text_out;
+}
+
+__END__
+
+=head1 NAME
+
+textile - Translate Textile markup language to HTML
+
+=head1 SYNOPSIS
+
+ # translate a text file to HTML, print to screen
+ textile file.txt
+
+ # translate a snippet of text to HTML
+ echo "hi there" | textile
+
+ # translate a text file, output to a file
+ textile -outfile out.html file.txt
+
+ # translate a text file, output to a legal full HTML file
+ # (By default, textile doesn't output <html>, <head> and <body> tags)
+ textile -fullpage -outfile out.html file.txt
+ 
+ # translate a text file, output to a legal full HTML file, add title
+ # (-title implies -fullpage)
+ textile -title "My <blink>133t</blink> web page" -outfile out.html file.txt
+
+=head1 DESCRIPTION
+
+This program uses Brad Choate's L<Text::Textile> module to convert 
+text in the Textile markup language into HTML. For example, it will
+convert "_hi_ there" to C<< <p><em>hi</em> there</p> >>. Textile
+(developed by Dean Allen of L<http://textism.com> lets you quickly write
+simple (or not so simple) text that (a) can be read as is, and (b) turns
+into readable HTML.
+
+=head1 AUTHOR
+
+Amir Karger, akarger@cpan.org
+
+Brad Choate built Text::Textile
+Dean Allen of Textism.com developed Textile.
+
+=head1 SEE ALSO
+
+L<Text::Textile>, L<http://textism.com>
