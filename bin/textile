@@ -17,7 +17,7 @@ $is_fullpage = 1 if defined $title;
 
 ################################################################################
 my $prog = basename($0);
-my $Usage = qq{
+my $Usage = <<"END";
 $prog [-fullpage] [-title "My <b>HTML</b> title"] [-outfile out.html] file.txt [file2.txt ...]
 $prog -help
 
@@ -25,13 +25,14 @@ Convert Textile markup text in input file to HTML
 
 Options:
 
--fullpage	Add <html>, <head>, and <body> tags to make a full HTML page
--help		Print this help
+-fullpage       Add <html>, <head>, and <body> tags to make a full HTML page
+-help           Print this help
 -outfile ...    Send results to a file, rather than to STDOUT
--title "..."	Add a <title> (implies -fullpage). Title string can include HTML
+-title "..."    Add a <title> (implies -fullpage). Title string can include HTML
 
 perldoc textile for way examples, etc.
-};
+END
+
 die $Usage if $help;
 
 main($is_fullpage, $outfile, $title);
@@ -64,15 +65,17 @@ sub main {
 # Top/bottom of HTML page
 my ($Pre_Title, $Post_Title, $Post_Body);
 BEGIN {
-    $Pre_Title = <<ENDPRETITLE;
+    $Pre_Title = <<'ENDPRETITLE';
 <html>
 <head>
 ENDPRETITLE
-    $Post_Title = <<ENDPOSTTITLE;
+
+    $Post_Title = <<'ENDPOSTTITLE';
 </head>
 <body>
 ENDPOSTTITLE
-    $Post_Body = <<ENDPOSTBODY;
+
+    $Post_Body = <<'ENDPOSTBODY';
 
 </body>
 </html>
