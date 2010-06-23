@@ -349,6 +349,8 @@ sub textile {
         $str = $self;
         $self = new Text::Textile;
     }
+    
+    return "" unless defined($str);
 
     # quick translator for abbreviated block names
     # to their tag
