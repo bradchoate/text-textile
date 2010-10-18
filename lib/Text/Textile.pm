@@ -1556,8 +1556,8 @@ sub format_image {
         }
         if (!$pctw && !$pcth) {
             ($w,$h) = ($extra =~ m/(^|\s)(\d+|\*)x(\d+|\*)(\s|$)/)[1,2];
-            $w = '' if $w eq '*';
-            $h = '' if $h eq '*';
+            $w = '' if $w && $w eq '*';
+            $h = '' if $h && $h eq '*';
             if (!$w) {
                 ($w) = ($extra =~ m/(^|[,\s])(\d+)w([\s,]|$)/)[1];
             }
