@@ -1544,10 +1544,12 @@ sub format_image {
             $tag .= qq{ align="$alignment"} if $alignment;
         }
     }
-    my ($pctw, $pcth, $w, $h, $alt);
+    my ($pctw, $pcth, $w, $h, $alt, $rel);
     if (defined $extra) {
         ($alt) = $extra =~ m/\(([^\)]+)\)/;
+        ($rel) = $extra =~ m/\{([^\}]+)\}/;
         $extra =~ s/\([^\)]+\)//;
+        $extra =~ s/\{[^\}]+\}//;
         my ($pct) = ($extra =~ m/(^|\s)(\d+)%(\s|$)/)[1];
         if (!$pct) {
             ($pctw, $pcth) = ($extra =~ m/(^|\s)(\d+)%x(\d+)%(\s|$)/)[1,2];
@@ -1569,6 +1571,10 @@ sub format_image {
     $alt = '' unless defined $alt;
     if ($self->{flavor} !~ m/^xhtml2/) {
         $tag .= ' alt="' . $self->encode_html_basic($alt) . '"';
+    }
+    $rel = '' unless defined $rel;
+    if ($self->{flavor} !~ m/^xhtml2/) {
+        $tag .= ' rel="' . $self->encode_html_basic($rel) . '"';
     }
     if ($w && $h) {
         if ($self->{flavor} !~ m/^xhtml2/) {
