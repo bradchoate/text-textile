@@ -905,7 +905,7 @@ sub format_inline {
     $text = $self->encode_html($text);
     $text =~ s!&lt;textile#(\d+)&gt;!<textile#$1>!g;
     $text =~ s!&amp;quot;!&#34;!g;
-    $text =~ s!&amp;(([a-zA-Z0-9]+|#\d+);)!&$1!g;
+    $text =~ s!&amp;(([a-zA-Z0-9]+|#\d+|#x[0-9A-Fa-f]+);)!&$1!g;
     $text =~ s!&quot;!"!g; #"
 
     # These create markup with entities. Do first and 'save' result for later:

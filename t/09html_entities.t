@@ -2,7 +2,7 @@
 
 use warnings;
 use strict;
-use Test::More tests=>3;
+use Test::More tests=>4;
 use Text::Textile qw(textile);
 
 my $source = <<'SOURCE';
@@ -46,3 +46,17 @@ EXPECTED
 $expected =~ s/(^\s+|\s+$)//g;
 
 is($dest, $expected, 'Preserve html entity with number');
+
+$source = <<'SOURCE';
+&#x1E54;
+SOURCE
+
+$dest = textile($source);
+$dest =~ s/(^\s+|\s+$)//g;
+
+$expected = <<'EXPECTED';
+<p>&#x1E54;</p>
+EXPECTED
+$expected =~ s/(^\s+|\s+$)//g;
+
+is($dest, $expected, 'Preserve hexadecimal html entity');
