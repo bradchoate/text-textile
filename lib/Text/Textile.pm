@@ -882,7 +882,7 @@ sub format_inline {
                ($imgalignre?)              # $2: optional alignment
                ($clstypadre*)              # $3: optional CSS class/id
                ($imgalignre?)              # $4: optional alignment
-               (?:\s*)                     # space between alignment/css stuff
+               (?:(?<=[^\!])\s+)?          # optional space between alignment/css stuff
                ([^\s\(\!]+)                # $5: filename
                (\s*[^\(\!]*(?:\([^\)]+\))?[^\!]*) # $6: extras (alt text)
                \!                          # closing
