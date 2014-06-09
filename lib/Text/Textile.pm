@@ -17,7 +17,7 @@ sub new {
     for ( qw( char_encoding do_quotes smarty_mode ) ) {
         $options{$_} = 1 unless exists $options{$_};
     }
-    for ( qw( trim_spaces preserve_spaces head_offset disable_encode_entities ) ) {
+    for ( qw( trim_spaces preserve_spaces head_offset disable_encode_entities disable_inline_formatting ) ) {
         $options{$_} = 0 unless exists $options{$_};
     }
 
@@ -180,6 +180,12 @@ sub disable_encode_entities {
     my $self = shift;
     $self->{disable_encode_entities} = shift if @_;
     return $self->{disable_encode_entities};
+}
+
+sub disable_inline_formatting {
+    my $self = shift;
+    $self->{disable_inline_formatting} = shift if @_;
+    return $self->{disable_inline_formatting};
 }
 
 sub handle_quotes {
@@ -905,7 +911,7 @@ sub format_inline {
     $text = $self->encode_html($text);
     $text =~ s!&lt;textile#(\d+)&gt;!<textile#$1>!g;
     $text =~ s!&amp;quot;!&#34;!g;
-    $text =~ s!&amp;(([a-z]+|#\d+);)!&$1!g;
+    $text =~ s!&amp;(([a-zA-Z0-9]+|#\d+|#x[0-9A-Fa-f]+);)!&$1!g;
     $text =~ s!&quot;!"!g; #"
 
     # These create markup with entities. Do first and 'save' result for later:
@@ -1004,28 +1010,33 @@ sub format_inline {
         $text =~ s/(?<!\s)\ \ (?!=\s)/&#8195;/g;
     }
 
-    my $redo = $text =~ m/[\*_\?\-\+\^\~]/;
-    my $last = $text;
-    while ($redo) {
-        # simple replacements...
-        $redo = 0;
-        foreach my $tag (@qtags) {
-            my ($f, $r, $qf, $cls) = @{$tag};
-            if ($text =~ s/(?:^|(?<=[\s>'"])|([{[])) # "' $1 - pre
-                           $qf                       #
-                           (?:($clstyre*))?          # $2 - attributes
-                           ([^$cls\s].*?)            # $3 - content
-                           (?<=\S)$qf                #
-                           (?:$|([\]}])|(?=$punct{1,2}|\s)) # $4 - post
-                          /$self->format_tag(tag => $r, marker => $f, pre => $1, text => $3, clsty => $2, post => $4)/gemx) {
-                    $redo ||= $last ne $text;
-                    $last = $text;
+    if (!$self->{disable_inline_formatting})
+    {
+        my $redo = $text =~ m/[\*_\?\-\+\^\~]/;
+        my $last = $text;
+        while ($redo) {
+            # simple replacements...
+            $redo = 0;
+            foreach my $tag (@qtags) {
+                my ($f, $r, $qf, $cls) = @{$tag};
+                if ($text =~ s/(?:^|(?<=[\s>'"])|([{[])) # "' $1 - pre
+                               $qf                       #
+                               (?:($clstyre*))?          # $2 - attributes
+                               ([^$cls\s].*?)            # $3 - content
+                               (?<=\S)$qf                #
+                               (?:$|([\]}])|(?=$punct{1,2}|\s)) # $4 - post
+                              /$self->format_tag(tag => $r, marker => $f, pre => $1, text => $3, clsty => $2, post => $4)/gemx) {
+                        $redo ||= $last ne $text;
+                        $last = $text;
+                }
             }
         }
+
+        # superscript is an even simpler replacement...
+        $text =~ s/(?<!\^)\^(?!\^)(.+?)(?<!\^)\^(?!\^)/<sup>$1<\/sup>/g;
+
     }
 
-    # superscript is an even simpler replacement...
-    $text =~ s/(?<!\^)\^(?!\^)(.+?)(?<!\^)\^(?!\^)/<sup>$1<\/sup>/g;
 
     # ABC(Aye Bee Cee) -> acronym
     $text =~ s{\b([A-Z][A-Za-z0-9]*?[A-Z0-9]+?)\b(?:[(]([^)]*)[)])}
@@ -2486,6 +2497,13 @@ only C<< < >>, C<< > >>, C<"> and C<&> are encoded to HTML entities.
 Gets or sets the disable encode entities logical flag. If this
 value is set to true no entities are encoded at all. This
 also supersedes the "char_encoding" flag.
+
+=head2 disable_inline_formatting( $boolean )
+
+Gets or sets the disable inline formatting logical flag. If this
+value is set, the rules in the I<Inline Formatting> section of this
+document are not applied. Helpful if you write things like "*sigh*" more
+frequently than actual bold text.
 
 =head2 handle_quotes( [$handle] )
 
