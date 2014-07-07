@@ -2,7 +2,7 @@
 
 use warnings;
 use strict;
-use Test::More tests=>1;
+use Test::More tests=>2;
 use Text::Textile qw(textile);
 
 my $source = <<'SOURCE';
@@ -18,4 +18,8 @@ my $expected = <<'EXPECTED';
 EXPECTED
 $expected =~ s/(^\s+|\s+$)//g;
 
+is($dest, $expected);
+
+my $textile_dest = textile( $source );
+$textile_dest =~ s/(^\s+|\s+$)//g;
 is($dest, $expected);
