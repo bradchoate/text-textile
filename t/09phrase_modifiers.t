@@ -22,4 +22,5 @@ is($dest, $expected);
 
 my $textile_dest = textile( $source );
 $textile_dest =~ s/(^\s+|\s+$)//g;
-is($dest, $expected);
+$textile_dest =~ s/(^<p>|<\/p>$)//g;
+is($textile_dest, $expected);
