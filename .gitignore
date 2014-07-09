@@ -1,4 +1,5 @@
 *~
+.DS_Store
 Makefile
 Makefile.old
 blib/
@@ -6,3 +7,5 @@ pm_to_blib
 tmon.out
 nytprof/
 nytprof.out
+MYMETA.json
+MYMETA.yml
