@@ -761,7 +761,15 @@ sub textile {
 
     # cleanup-- restore preserved blocks
     my $i = scalar(@repl);
-    $out =~ s!(?:<|&lt;)textile#$i(?:>|&gt;)!$_!, $i-- while local $_ = pop @repl;
+    ### fix for unescaped chars <>" in bc (GwenDragon 2014-07-10)
+    while (local $_ = pop @repl) {
+        length $block and $block eq 'bc' and s/</&lt;/g;
+        length $block and $block eq 'bc' and s/>/&gt;/g;
+        length $block and $block eq 'bc' and s/"/&quot;/g;
+        $out =~ s!(?:<|&lt;)textile#$i(?:>|&gt;)!$_!;
+        $i--;
+    }
+    ###    
 
     # scan for br, hr tags that are not closed and close them
     # only for xhtml! just the common ones -- don't fret over input
