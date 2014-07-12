@@ -625,7 +625,8 @@ sub textile {
                        (?:$|([\]}])|(?=$punct{1,2}|\s))}
                       {_repl(\@repl, $self->format_block(text => $2, inline => 1, pre => $1, post => $3))}gesx;
             $buffer .= $self->encode_html_basic($para, 1);
-            $buffer =~ s/&lt;textile#(\d+)&gt;/<textile#$1>/g;
+            #$buffer =~ s/&lt;textile#(\d+)&gt;/<textile#$1>/g;
+            $buffer =~ s/&lt;textile#(\d+)&gt;/$self->encode_html_basic($repl[$1-1],1)/ge; # fix blockcode: force XHTML encode -- GwenDragon 2014-07-12
             if ($sticky == 0) {
                 $post .= $self->{_blockcode_close};
             }
@@ -761,15 +762,7 @@ sub textile {
 
     # cleanup-- restore preserved blocks
     my $i = scalar(@repl);
-    ### fix for unescaped chars <>" in bc (GwenDragon 2014-07-10)
-    while (local $_ = pop @repl) {
-        length $block and $block eq 'bc' and s/</&lt;/g;
-        length $block and $block eq 'bc' and s/>/&gt;/g;
-        length $block and $block eq 'bc' and s/"/&quot;/g;
-        $out =~ s!(?:<|&lt;)textile#$i(?:>|&gt;)!$_!;
-        $i--;
-    }
-    ###    
+    $out =~ s!(?:<|&lt;)textile#$i(?:>|&gt;)!$_!, $i-- while local $_ = pop @repl;
 
     # scan for br, hr tags that are not closed and close them
     # only for xhtml! just the common ones -- don't fret over input
