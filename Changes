@@ -1,6 +1,18 @@
 
-NEXT
-- Added textile command-line tool
+2.13 -
+
+- Added textile command-line tool submitted by Amir Karger.
+
+- Applied a patch submitted by Serap Kadam for issues with parsing
+whitespace around '!' characters.
+
+- Applied a patch submitted by Andy Yacomink for handling mixed-case
+HTML entity names.
+
+- Applied a patch submitted by Andy Yacomink for running some of
+the inline modifier code as a separate method to allow for a
+subclass to override/prevent them.
+
 
 2.12 -
 
