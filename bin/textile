@@ -6,14 +6,20 @@ use File::Basename;
 use Getopt::Long;
 use Text::Textile qw(textile);
 
-my ($is_fullpage, $help, $outfile, $title);
+my ($is_fullpage, $help, $outfile, $title, $show_version);
 GetOptions (
     "fullpage"	=> \$is_fullpage,
     "help"	=> \$help,
     "outfile=s"	=> \$outfile,
     "title=s"	=> \$title,
+    "version"	=> \$show_version,
 ) or die;
 $is_fullpage = 1 if defined $title;
+
+if ($show_version) {
+    print "$Text::Textile::VERSION\n";
+    exit;
+}
 
 ################################################################################
 my $prog = basename($0);
