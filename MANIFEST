@@ -2,7 +2,7 @@ ARTISTIC
 Changes
 MANIFEST
 Makefile.PL
-README
+README.textile
 bin/textile
 lib/Text/Textile.pm
 t/01compile.t
