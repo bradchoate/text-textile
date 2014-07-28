@@ -2446,7 +2446,7 @@ defaults to "fn"
 
 =head2 charset( [$charset] )
 
-Gets or sets the character set targetted for publication.
+Gets or sets the character set targeted for publication.
 At this time, Text::Textile only changes its behavior
 if the "utf-8" character set is assigned.
 
@@ -2609,7 +2609,7 @@ The language (programming language) for the code.
 
 =head2 format_classstyle( $clsty, $class, $style )
 
-Returns a string of tag attributes to accomodate the class,
+Returns a string of tag attributes to accommodate the class,
 style and symbols present in $clsty.
 
 I<$clsty> is checked for:
