@@ -625,7 +625,8 @@ sub textile {
                        (?:$|([\]}])|(?=$punct{1,2}|\s))}
                       {_repl(\@repl, $self->format_block(text => $2, inline => 1, pre => $1, post => $3))}gesx;
             $buffer .= $self->encode_html_basic($para, 1);
-            $buffer =~ s/&lt;textile#(\d+)&gt;/<textile#$1>/g;
+            #$buffer =~ s/&lt;textile#(\d+)&gt;/<textile#$1>/g;
+            $buffer =~ s/&lt;textile#(\d+)&gt;/$self->encode_html_basic($repl[$1-1],1)/ge; # fix blockcode: force XHTML encode -- GwenDragon 2014-07-12
             if ($sticky == 0) {
                 $post .= $self->{_blockcode_close};
             }
