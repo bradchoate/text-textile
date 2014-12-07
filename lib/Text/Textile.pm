@@ -1814,46 +1814,41 @@ sub format_table {
             $header = 1 if $rowheader;
             $colalign[$c] = $colalign if $header;
             $col =~ s/^ +//; $col =~ s/ +$//;
-            if (length($col)) {
-                # create one cell tag
-                my $rowspan = $rowspans[$c] || 0;
-                my $col_out = '<' . ($header ? 'th' : 'td');
-                if (defined $colalign) {
-                    # horizontal, vertical alignment
-                    my $halign = _halign($colalign);
-                    $col_out .= qq{ align="$halign"} if $halign;
-                    my $valign = _valign($colalign);
-                    $col_out .= qq{ valign="$valign"} if $valign;
-                }
-                # apply css attributes, row, column spans
-                $colstyle .= qq{;padding-left:${colpadl}em} if $colpadl;
-                $colstyle .= qq{;padding-right:${colpadr}em} if $colpadr;
-                $col_out .= qq{ class="$colclass"} if $colclass;
-                $col_out .= qq{ id="$colid"} if $colid;
-                $colstyle =~ s/^;// if $colstyle;
-                $col_out .= qq{ style="$colstyle"} if $colstyle;
-                $col_out .= qq{ lang="$collang"} if $collang;
-                $col_out .= qq{ colspan="$colspan"} if $colspan > 1;
-                $col_out .= qq{ rowspan="$rowspan"} if ($rowspan||0) > 1;
-                $col_out .= '>';
-                # if the content of this cell has newlines OR matches
-                # our paragraph block signature, process it as a full-blown
-                # textile document
-                if (($col =~ m/\n\n/) ||
-                    ($col =~ m/^(?:$halignre|$clstypadre*)*
-                                [\*\#]
-                                (?:$clstypadre*|$halignre)*\ /x)) {
-                    $col_out .= $self->textile($col);
-                } else {
-                    $col_out .= $self->format_paragraph(text => $col);
-                }
-                $col_out .= '</' . ($header ? 'th' : 'td') . '>';
-                $row_out = $col_out . $row_out;
-                $colspan = 0 if $colspan;
-            } else {
-                $colspan = 1 if $colspan == 0;
-                $colspan++;
+            # create one cell tag
+            my $rowspan = $rowspans[$c] || 0;
+            my $col_out = '<' . ($header ? 'th' : 'td');
+            if (defined $colalign) {
+                # horizontal, vertical alignment
+                my $halign = _halign($colalign);
+                $col_out .= qq{ align="$halign"} if $halign;
+                my $valign = _valign($colalign);
+                $col_out .= qq{ valign="$valign"} if $valign;
             }
+            # apply css attributes, row, column spans
+            $colstyle .= qq{;padding-left:${colpadl}em} if $colpadl;
+            $colstyle .= qq{;padding-right:${colpadr}em} if $colpadr;
+            $col_out .= qq{ class="$colclass"} if $colclass;
+            $col_out .= qq{ id="$colid"} if $colid;
+            $colstyle =~ s/^;// if $colstyle;
+            $col_out .= qq{ style="$colstyle"} if $colstyle;
+            $col_out .= qq{ lang="$collang"} if $collang;
+            $col_out .= qq{ colspan="$colspan"} if $colspan > 1;
+            $col_out .= qq{ rowspan="$rowspan"} if ($rowspan||0) > 1;
+            $col_out .= '>';
+            # if the content of this cell has newlines OR matches
+            # our paragraph block signature, process it as a full-blown
+            # textile document
+            if (($col =~ m/\n\n/) ||
+                ($col =~ m/^(?:$halignre|$clstypadre*)*
+                            [\*\#]
+                            (?:$clstypadre*|$halignre)*\ /x)) {
+                $col_out .= $self->textile($col);
+            } else {
+                $col_out .= $self->format_paragraph(text => $col);
+            }
+            $col_out .= '</' . ($header ? 'th' : 'td') . '>';
+            $row_out = $col_out . $row_out;
+            $colspan = 0 if $colspan;
         }
         if ($colspan > 1) {
             # handle the spanned column if we came up short
