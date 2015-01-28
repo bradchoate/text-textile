@@ -3553,7 +3553,7 @@ use the Textile syntax and let it produce the markup for you.
 
 Text::Textile is hosted at github.
 
-Source: L<http://github.com/bradchoate/text-textile/tree/master>
+Source: L<http://github.com/bradchoate/text-textile>
 
 Bugs: L<http://github.com/bradchoate/text-textile/issues>
 

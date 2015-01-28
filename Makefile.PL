@@ -26,10 +26,15 @@ if ( $ExtUtils::MakeMaker::VERSION =~ /^\d\.\d\d$/ and $ExtUtils::MakeMaker::VER
 
 if ( $ExtUtils::MakeMaker::VERSION ge '6.46' ) {
     $parms{META_MERGE} = {
+    		'meta-spec' => { version => 2 },
         resources => {
             bugtracker => 'http://github.com/bradchoate/text-textile/issues',
-            repository => 'http://github.com/bradchoate/text-textile/tree/master',
-        }
+            repository => {
+							type => 'git',
+							web => 'http://github.com/bradchoate/text-textile',
+							url => 'http://github.com/bradchoate/text-textile.git'
+            	}
+				}
     };
 }
 
