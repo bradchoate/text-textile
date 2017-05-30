@@ -17,7 +17,7 @@ sub new {
     for ( qw( char_encoding do_quotes smarty_mode ) ) {
         $options{$_} = 1 unless exists $options{$_};
     }
-    for ( qw( trim_spaces preserve_spaces head_offset disable_encode_entities ) ) {
+    for ( qw( trim_spaces preserve_spaces head_offset disable_encode_entities disable_inline_formatting ) ) {
         $options{$_} = 0 unless exists $options{$_};
     }
 
@@ -180,6 +180,12 @@ sub disable_encode_entities {
     my $self = shift;
     $self->{disable_encode_entities} = shift if @_;
     return $self->{disable_encode_entities};
+}
+
+sub disable_inline_formatting {
+    my $self = shift;
+    $self->{disable_inline_formatting} = shift if @_;
+    return $self->{disable_inline_formatting};
 }
 
 sub handle_quotes {
@@ -1004,7 +1010,9 @@ sub format_inline {
         $text =~ s/(?<!\s)\ \ (?!=\s)/&#8195;/g;
     }
 
-    $text = $self->format_phrase_modifiers( text => $text );
+    if ( ! $self->{disable_inline_formatting} ) {
+        $text = $self->format_phrase_modifiers( text => $text );
+    }
 
     # ABC(Aye Bee Cee) -> acronym
     $text =~ s{\b([A-Z][A-Za-z0-9]*?[A-Z0-9]+?)\b(?:[(]([^)]*)[)])}
@@ -2498,6 +2506,13 @@ only C<< < >>, C<< > >>, C<"> and C<&> are encoded to HTML entities.
 Gets or sets the disable encode entities logical flag. If this
 value is set to true no entities are encoded at all. This
 also supersedes the "char_encoding" flag.
+
+=head2 disable_inline_formatting( $boolean )
+
+Gets or sets the disable inline formatting logical flag. If this
+value is set, the rules in the I<Inline Formatting> section of this
+document are not applied. Helpful if you write things like "*sigh*" more
+frequently than actual bold text.
 
 =head2 handle_quotes( [$handle] )
 
